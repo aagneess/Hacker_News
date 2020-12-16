@@ -1,0 +1,16 @@
+.btn {
+  background-color: #5f9ea0;
+  border-color: #5f9ea0;
+}
+.btn:hover {
+  background-color: #326f72;
+  border-color: #326f72;
+}
+.navbar {
+  background-color: #252525;
+  display: flex;
+}
+.navbar a {
+  text-decoration: unset;
+  color: white;
+}
