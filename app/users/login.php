@@ -19,6 +19,7 @@ if (isset($_POST['email'], $_POST['password'])) {
     // If we couldn't find the user in the database, redirect back to the login
     // page with our custom redirect function.
     if (!$user) {
+        $_SESSION['message'] = 'There is no account linked to this email address, please try again.';
         redirect('/login.php');
     }
 
@@ -29,11 +30,13 @@ if (isset($_POST['email'], $_POST['password'])) {
         // the correct password. We can now save the user in our session.
         // Remember to not save the password in the session!
         unset($user['password']);
-
         $_SESSION['user'] = $user;
+    } else {
+        $_SESSION['message'] = 'The password is not linked to the provided email address, please try again.';
+        redirect('/login.php');
     }
 }
 
 // We should put this redirect in the end of this file since we always want to
-// redirect the user back from this file. We don't know
+// redirect the user back from this file. 
 redirect('/');

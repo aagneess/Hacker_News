@@ -13,5 +13,7 @@
 
 <body>
     <?php require __DIR__ . '/navigation.php'; ?>
+    <?php require __DIR__ . '/usernavigation.php'; ?>
+    <?php require __DIR__ . '/../app/messages.php'; ?>
 
     <div class="container py-5">

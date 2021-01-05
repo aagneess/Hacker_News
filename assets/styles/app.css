@@ -1,3 +1,4 @@
+/* BUTTONS */
 .btn {
   background-color: #5f9ea0;
   border-color: #5f9ea0;
@@ -6,6 +7,7 @@
   background-color: #326f72;
   border-color: #326f72;
 }
+/* NAVBAR */
 .navbar {
   background-color: #252525;
   display: flex;
@@ -13,4 +15,32 @@
 .navbar a {
   text-decoration: unset;
   color: white;
+}
+@media screen and (min-width: 700px) {
+  .navbar-nav {
+    flex-direction: row;
+    width: 20rem;
+    justify-content: space-between;
+  }
+}
+/* USER NAVIGATION BAR */
+.usernavbar {
+  /* background-color: #333333; */
+  background-color: #326f72;
+  padding: 0rem 1rem;
+  display: flex;
+}
+.usernavbar .navbar-nav {
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+.usernavbar a {
+  text-decoration: unset;
+  color: white;
+  justify-content: center;
+  text-align: center;
+}
+.usernavbar .nav-link {
+  padding: 0.5rem;
 }
