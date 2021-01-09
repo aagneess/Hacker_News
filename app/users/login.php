@@ -40,3 +40,16 @@ if (isset($_POST['email'], $_POST['password'])) {
 // We should put this redirect in the end of this file since we always want to
 // redirect the user back from this file. 
 redirect('/');
+
+
+if (!$user) {
+    $_SESSION['message'] = 'There is no account linked to this email address, please try again.';
+    redirect('/login.php');
+}
+if (password_verify($_POST['password'], $user['password'])) {
+    unset($user['password']);
+    $_SESSION['user'] = $user;
+} else {
+    $_SESSION['message'] = 'The password is not linked to the provided email address, please try again.';
+    redirect('/login.php');
+}

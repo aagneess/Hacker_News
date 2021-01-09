@@ -19,14 +19,20 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
         redirect('/signup.php');
     }
 
-    if ($_POST['password'] !== $_POST['comfirm_password']) {
-        $_SESSION['message'] = 'You typed in two different passwords , please try again.';
+    if ($_POST['password'] !== $_POST['confirm_password']) {
+        $_SESSION['message'] = 'The passwords did not match, please try again.';
         redirect('/signup.php');
     }
+
+    // Auto-login after sign-up
+    $statement = $pdo->prepare('SELECT * FROM users WHERE email = :email');
+    $statement->bindParam(':email', $email, PDO::PARAM_STR);
+    $statement->execute();
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['user'] = $user;
 }
 
 $password = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
-
 
 // Database
 $query = 'INSERT INTO users (username, email, password) VALUES (:username, :email,  :password)';

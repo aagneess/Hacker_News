@@ -9,6 +9,7 @@ function redirect(string $path)
     exit;
 }
 
+// SIGNUP
 // Check if the username is already in use
 function usernameExists(string $username, object $pdo): bool
 {
@@ -40,25 +41,21 @@ function emailExists(string $email, object $pdo): bool
     return false;
 }
 
-// Verify that the user is logged in
-function userIsLoggedIn(): bool
+// Validate email address
+function validateEmail(string $email): bool
 {
-    return isset($_SESSION['user']);
-}
+    $isValid = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-// Verify the user id
-function userIdVerify($user): bool
-{
-    if ($_SESSION['user']['id'] === $user['id']) {
+    if ($isValid) {
         return true;
     } else {
         return false;
     }
 }
 
-// POSTS
+// Validate content
 
-function urlExists(string $url, object $pdo): bool
+function validateUrl(string $url, object $pdo): bool
 {
     $statement = $pdo->prepare('SELECT * FROM posts WHERE url = :url');
     $statement->bindParam(':url', $url, PDO::PARAM_STR);
@@ -68,7 +65,38 @@ function urlExists(string $url, object $pdo): bool
 
     if ($url) {
         return true;
+    } else {
+        return false;
+    }
+}
+
+
+// PROFILE
+// Function to get user info
+function getUserById($pdo, $id)
+{
+
+    $statement = $pdo->prepare("SELECT id, username, email, avatar, bio FROM users WHERE id = :id");
+    $statement->BindParam(':username', $id, PDO::PARAM_STR);
+    $statement->execute();
+
+    $user =  $statement->fetch(PDO::FETCH_ASSOC);
+
+    return $user;
+}
+// ACCOUNT SETTINGS
+function getUserId(int $id, object $pdo): array
+{
+    $statement = $pdo->prepare('SELECT * FROM users WHERE id = :id');
+
+    if (!$statement) {
+        die(var_dump($pdo->errorInfo()));
     }
 
-    return false;
+    $statement->execute([':id' => $id]);
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        return $user;
+    }
 }

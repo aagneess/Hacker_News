@@ -1,7 +1,17 @@
 <nav class="navbar">
     <a class="navbar-brand" href="index.php"><?php echo $config['title']; ?></a>
+    <!-- <img class="logo" src="/../assets/HN.svg" alt="Hacker News" /> -->
 
     <ul class="navbar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link <?php echo $_SERVER['SCRIPT_NAME'] === '/newer.php' ? 'active' : ''; ?>" href="/newer.php">Recent Posts</a>
+        </li><!-- /nav-item -->
+
+        <li class="nav-item">
+            <a class="nav-link <?php echo $_SERVER['SCRIPT_NAME'] === '/older.php' ? 'active' : ''; ?>" href="/older.php">Older Posts</a>
+        </li><!-- /nav-item -->
+
         <li class="nav-item">
             <a class="nav-link <?php echo $_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : ''; ?>" href="/index.php">Home</a>
         </li><!-- /nav-item -->

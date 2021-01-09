@@ -10,4 +10,8 @@
     <?php endif; ?>
 </article>
 
+<section class="posts">
+
+</section>
+
 <?php require __DIR__ . '/views/footer.php'; ?>

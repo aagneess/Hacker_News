@@ -2,9 +2,7 @@
 <?php require __DIR__ . '/../views/header.php'; ?>
 
 <article>
-    <h1>Recent Posts</h1>
-
-
+    <h2>Want to edit a post?</h2>
 </article>
 
 <?php require __DIR__ . '/../views/footer.php'; ?>

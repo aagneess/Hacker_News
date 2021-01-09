@@ -1,4 +1,13 @@
 /* BUTTONS */
+.navbar-brand {
+  font-weight: 100;
+  font-size: 3rem;
+  text-align: center;
+}
+.nav-link {
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
 .btn {
   background-color: #5f9ea0;
   border-color: #5f9ea0;
@@ -12,14 +21,21 @@
   background-color: #252525;
   display: flex;
 }
+.navbar .navbar-nav {
+  flex-direction: column;
+  width: 40rem;
+  justify-content: space-between;
+}
 .navbar a {
   text-decoration: unset;
   color: white;
+  justify-content: center;
+  text-align: center;
 }
-@media screen and (min-width: 700px) {
-  .navbar-nav {
+@media screen and (min-width: 500px) {
+  .navbar .navbar-nav {
     flex-direction: row;
-    width: 20rem;
+    width: 40rem;
     justify-content: space-between;
   }
 }
@@ -31,9 +47,9 @@
   display: flex;
 }
 .usernavbar .navbar-nav {
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .usernavbar a {
   text-decoration: unset;
@@ -43,4 +59,10 @@
 }
 .usernavbar .nav-link {
   padding: 0.5rem;
+}
+@media screen and (min-width: 500px) {
+  .usernavbar .navbar-nav {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
