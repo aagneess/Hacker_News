@@ -30,7 +30,7 @@
                 <small class="form-text text-muted">Please confirm your password.</small>
             </div><!-- /form-group -->
 
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <button type="submit" class="btn btn-info">Sign Up</button>
         </form>
 </article>
 

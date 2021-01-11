@@ -73,15 +73,12 @@ function validateUrl(string $url, object $pdo): bool
 
 // PROFILE
 // Function to get user info
-function getUserById($pdo, $id)
+function getUserById(int $id, object $pdo): array
 {
-
-    $statement = $pdo->prepare("SELECT id, username, email, avatar, bio FROM users WHERE id = :id");
-    $statement->BindParam(':username', $id, PDO::PARAM_STR);
+    $statement = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $statement->BindParam(':id', $id, PDO::PARAM_INT);
     $statement->execute();
-
     $user =  $statement->fetch(PDO::FETCH_ASSOC);
-
     return $user;
 }
 // ACCOUNT SETTINGS
@@ -99,4 +96,55 @@ function getUserId(int $id, object $pdo): array
     if ($user) {
         return $user;
     }
+}
+
+// USERS POSTS
+function userPosts(int $id, object $pdo): array
+{
+    // $statement = $pdo->prepare('SELECT *, users.username, users.avatar FROM posts
+    // INNER JOIN users
+    // ON posts.user_id = users.id
+    // WHERE user_id = :user_id
+    // ORDER BY posts.date DESC');
+
+    $statement = $pdo->prepare('SELECT * FROM posts
+    INNER JOIN users
+    ON posts.id = users.id
+    WHERE user_id = :user_id
+    ORDER BY posts.date_created DESC');
+
+    $statement->bindParam(':user_id', $id, PDO::PARAM_INT);
+    $statement->execute();
+    $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $userPosts;
+}
+//
+function getPostById(PDO $pdo, int $id): array
+{
+    $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
+
+    if (!$statement) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+
+    $post = $statement->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['post'] = $post;
+    return $_SESSION['post'];
+}
+
+
+function getPostsOrderBy(PDO $pdo, string $orderBy): array
+{
+    $statement = $pdo->prepare("SELECT * FROM posts ORDER BY $orderBy DESC");
+
+    if (!$statement) {
+        die(var_dump($pdo->errorInfo()));
+    }
+    $statement->execute();
+
+    $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $posts;
 }

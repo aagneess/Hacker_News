@@ -11,45 +11,45 @@ $id = (int) $_SESSION['user']['id'];
 ?>
 
 <!-- AVATAR -->
-<form action="/../app/users/updatebio.php" method="post" enctype="multipart/form-data">
-    <div class="avatar">
+<form class="update-avatar" action="/../app/users/updateavatar.php" method="post" enctype="multipart/form-data">
+    <div class="">
         <label class="avatar" for="avatar">Choose an image to upload:</label>
-        <input type="file" accept=".png, .jpg, .jpeg" name="avatar" id="avatar" required>
+        <input type="file" accept="/png, /jpg, /jpeg" name="avatar" id="avatar" required>
     </div>
-    <button class="btn btn-primary" type="submit" name="sumbit" value="submit">Update Profile Picture</button>
-</form>
+    <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Profile Picture</button>
+</form><br>
 
 <!-- BIO -->
-<form action="/../app/users/updatebio.php" method="post">
-    <div class="update-bio">
-        <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio"><?= $_SESSION['user']['bio'] ?></textarea>
+<form class="update-bio" action="/../app/users/updatebio.php" method="post">
+    <div class="form-group">
+        <label for="bio">Here you can write a new bio:</label><br>
+        <textarea id="bio" name="bio"><?= $_SESSION['user']['bio'] ?></textarea><br>
+        <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Bio</button>
     </div>
-    <button class="btn btn-primary" type="submit" name="sumbit" value="submit">Update Bio</button>
-</form>
+</form><br>
 
 <!-- EMAIL -->
-<form action="/../app/users/updateemail.php" method="post">
-    <div class="update-email">
-        <label for="email"> Email:</label>
+<form class="update-email" action="/../app/users/updateemail.php" method="post">
+    <div class="form-group">
+        <label for="email"> Here you can change your email address:</label><br>
         <input type="email" name="email" id="email" placeholder="<?php echo $_SESSION['user']['email']; ?>">
+        <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Email Address</button>
     </div>
-    <button class="btn btn-primary" type="submit" name="sumbit" value="submit">Update Email Address</button>
-</form>
+</form><br>
 
 <!-- PASSWORD -->
-<form action="/../app/users/updatepassword.php" method="post">
-    <div class="update-password">
-        <label for="password"> Current password </label>
-        <input type="password" name="current-password" id="current-passord" required>
+<form class="update-password" action="/../app/users/updatepassword.php" method="post">
+    <div class="form-group">
+        <label for="password"> Current password: </label>
+        <input type="password" name="current-password" id="current-passord" required><br>
 
-        <label for="password"> New password </label>
-        <input type="password" name="new-password" id="new-password">
+        <label for="password"> New password: </label>
+        <input type="password" name="new-password" id="new-password"><br>
 
-        <label for="password"> Repeat new password </label>
-        <input type="password" name="repeat-password" id="repeat-password">
+        <label for="password"> Repeat new password: </label>
+        <input type="password" name="repeat-password" id="repeat-password"><br>
 
-        <button class="btn btn-primary" type="submit" name="sumbit" value="submit">Update Password</button>
+        <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Password</button>
     </div>
 </form>
 

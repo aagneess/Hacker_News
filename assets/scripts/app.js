@@ -1,1 +1,7 @@
-// Add window alerts for messages to the user(?)
+function getContent() {
+  document.getElementById("textarea").value = document.getElementById(
+    "post-title",
+    "post-link",
+    "post-content"
+  ).innerHTML;
+}
