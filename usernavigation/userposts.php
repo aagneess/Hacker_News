@@ -4,9 +4,6 @@
 <?php
 $id = (int) $_SESSION['user']['id'];
 $userPosts = getUserPosts($pdo, $id);
-
-$postId = getPostById($id, $pdo);
-
 ?>
 
 <h2>Want to edit a post?</h2>
@@ -14,7 +11,7 @@ $postId = getPostById($id, $pdo);
     <section class="user-posts">
 
 
-        <form action="/../app/posts/update.php" method="post" class="change-post">
+        <form action="/app/posts/update.php" method="post" class="change-post">
             <label class="d-inline" for="post-title">Title:</label>
             <input type="text" class="form-control" id="post-title" name="post-title" placeholder="<?= $post['title'] ?>"></input>
             <br>
@@ -30,7 +27,8 @@ $postId = getPostById($id, $pdo);
                 <button class="btn btn-info d-inline" type="submit" name="sumbit" value="submit">Update Post</button>
         </form>
 
-        <form action="/../app/posts/comment.php" method="post" class="d-inline">
+        <form action="/app/posts/delete.php" method="post" class="d-inline">
+            <input type="hidden" name="post-id" value="<? echo $post['id']; ?>">
             <button class="btn btn-danger " type="submit" name="sumbit" value="submit">Delete Post</button>
         </form>
 

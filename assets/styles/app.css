@@ -74,15 +74,19 @@
   font-size: 1.2rem;
   font-weight: 300;
 }
-.text-content {
+/* .text-content {
   background-color: #5f9ea0;
   padding: 0.5rem;
   border-radius: 0.5rem;
-}
-.post-link {
+} */
+/* .post-link {
   text-decoration: unset;
-  color: black;
-}
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 160px;
+  height: 1.2em;
+  white-space: nowrap;
+} */
 .post-link:hover {
   text-decoration: unset;
   color: black;
@@ -103,6 +107,11 @@
 }
 .all-posts .post-link {
   color: #007183;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 160px;
+  height: 1.2em;
+  white-space: nowrap;
 }
 .create-post {
   background-color: #f7f7f7;

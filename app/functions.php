@@ -53,8 +53,7 @@ function validateEmail(string $email): bool
     }
 }
 
-// Validate content
-
+// Validate url
 function validateUrl(string $url, object $pdo): bool
 {
     $statement = $pdo->prepare('SELECT * FROM posts WHERE url = :url');
@@ -75,7 +74,7 @@ function validateUrl(string $url, object $pdo): bool
 // Function to get user info
 function getUserById(int $id, object $pdo): array
 {
-    $statement = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $statement = $pdo->prepare('SELECT * FROM users WHERE id = :id');
     $statement->BindParam(':id', $id, PDO::PARAM_INT);
     $statement->execute();
     $user =  $statement->fetch(PDO::FETCH_ASSOC);
@@ -85,11 +84,6 @@ function getUserById(int $id, object $pdo): array
 function getUserId(int $id, object $pdo): array
 {
     $statement = $pdo->prepare('SELECT * FROM users WHERE id = :id');
-
-    if (!$statement) {
-        die(var_dump($pdo->errorInfo()));
-    }
-
     $statement->execute([':id' => $id]);
     $user = $statement->fetch(PDO::FETCH_ASSOC);
 
@@ -98,28 +92,31 @@ function getUserId(int $id, object $pdo): array
     }
 }
 
-// USERS POSTS
-function userPosts(int $id, object $pdo): array
-{
-    // $statement = $pdo->prepare('SELECT *, users.username, users.avatar FROM posts
-    // INNER JOIN users
-    // ON posts.user_id = users.id
-    // WHERE user_id = :user_id
-    // ORDER BY posts.date DESC');
+// THE USERS POSTS
 
+// Get the user's post
+function getUserPosts(object $pdo, int $id): array
+{
     $statement = $pdo->prepare('SELECT * FROM posts
     INNER JOIN users
-    ON posts.id = users.id
-    WHERE user_id = :user_id
-    ORDER BY posts.date_created DESC');
+    ON posts.user_id = users.id
+    WHERE users.id = :id
+    ORDER BY posts.id DESC');
 
-    $statement->bindParam(':user_id', $id, PDO::PARAM_INT);
+    $statement->BindParam(':id', $id, PDO::PARAM_INT);
     $statement->execute();
+
     $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$statement) {
+        return $_SESSION['message'] = "You have not created any posts at this moment.";
+    }
+
     return $userPosts;
 }
+
 //
-function getPostById(PDO $pdo, int $id): array
+function getPostById(int $id, object $pdo): array
 {
     $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
 
@@ -131,20 +128,32 @@ function getPostById(PDO $pdo, int $id): array
     $statement->execute();
 
     $post = $statement->fetch(PDO::FETCH_ASSOC);
-    $_SESSION['post'] = $post;
-    return $_SESSION['post'];
+    if ($post) {
+        return $post;
+    }
 }
 
-
-function getPostsOrderBy(PDO $pdo, string $orderBy): array
+// ALL USER POSTS (new posts)
+function allUserPosts(object $pdo): array
 {
-    $statement = $pdo->prepare("SELECT * FROM posts ORDER BY $orderBy DESC");
+    $statement = $pdo->prepare('SELECT * FROM posts
+    ORDER BY posts.date_created DESC');
 
-    if (!$statement) {
-        die(var_dump($pdo->errorInfo()));
-    }
     $statement->execute();
 
-    $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
-    return $posts;
+    $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $userPosts;
+}
+// ALL USER POSTS (older posts)
+function allUserPostsAsc(object $pdo): array
+{
+    $statement = $pdo->prepare('SELECT * FROM posts
+    ORDER BY posts.date_created ASC');
+
+    $statement->execute();
+
+    $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $userPosts;
 }

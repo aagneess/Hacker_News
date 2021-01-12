@@ -14,11 +14,9 @@ if (isset($_POST['title'], $_POST['url'], $_POST['text_content'])) {
     $username = $_SESSION['user']['username'];
     $dateCreated = date('y-m-d h:m:s');
 
-
     $createPost = 'INSERT INTO posts (title, url, text_content, user_id, username, date_created) 
     VALUES (:title, :url, :text_content, :user_id, :username, :date_created)';
     $statement = $pdo->prepare($createPost);
-
 
     $statement->bindParam(':title', $title, PDO::PARAM_STR);
     $statement->bindParam(':url', $url, PDO::PARAM_STR);
