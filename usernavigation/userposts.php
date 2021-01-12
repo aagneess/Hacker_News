@@ -3,15 +3,18 @@
 
 <?php
 $id = (int) $_SESSION['user']['id'];
-$userPosts = userPosts($id, $pdo);
+$userPosts = getUserPosts($pdo, $id);
+
+$postId = getPostById($id, $pdo);
+
 ?>
 
 <h2>Want to edit a post?</h2>
+<?php foreach ($userPosts as $post) : ?>
+    <section class="user-posts">
 
-<section class="user-posts">
-    <?php foreach ($userPosts as $post) : ?>
 
-        <form action="/../app/users/updateposts.php" method="post" class="change-post">
+        <form action="/../app/posts/update.php" method="post" class="change-post">
             <label class="d-inline" for="post-title">Title:</label>
             <input type="text" class="form-control" id="post-title" name="post-title" placeholder="<?= $post['title'] ?>"></input>
             <br>
@@ -25,8 +28,12 @@ $userPosts = userPosts($id, $pdo);
             <small class="form-text text-muted">
 
                 <button class="btn btn-info d-inline" type="submit" name="sumbit" value="submit">Update Post</button>
-                <button class="btn btn-danger d-inline " type="submit" name="sumbit" value="submit">Delete Post</button>
         </form>
-    <?php endforeach; ?>
-</section>
+
+        <form action="/../app/posts/comment.php" method="post" class="d-inline">
+            <button class="btn btn-danger " type="submit" name="sumbit" value="submit">Delete Post</button>
+        </form>
+
+    </section>
+<?php endforeach; ?>
 <?php require __DIR__ . '/../views/footer.php'; ?>
