@@ -1,17 +1,29 @@
 <?php require __DIR__ . '/app/autoload.php'; ?>
 <?php require __DIR__ . '/views/header.php'; ?>
 
-<article>
-    <h1><?php echo $config['title']; ?></h1>
-    <p>This is the home page.</p>
+<h1>Top Posts</h1>
 
-    <?php if (isset($_SESSION['user'])) : ?>
-        <p>Welcome, <?php echo $_SESSION['user']['username']; ?>!</p>
-    <?php endif; ?>
-</article>
+<?php $userPosts = allUserPosts($pdo);
+foreach ($userPosts as $post) : ?>
 
-<section class="posts">
+    <section class="all-posts">
+        <span class="post-title" id="post-title" name="post-title"><?= $post['title'] ?> (<a class="post-link" href="<?= $post['url'] ?>"><?= $post['url'] ?></a>)</span>
+        <p><?= $post['text_content'] ?></p>
+        <small class="form-text text-muted">User: <?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
+        <br>
 
-</section>
+        <div class="comment-section">
+            <form action="/../app/comments/store.php" method="post" class="">
+                <input type="text" class="form-control" id="comment" name="comment" placeholder="..."></input>
+                <button class="btn btn-info" type="submit" name="sumbit" value="submit">Comment</button>
+            </form>
+        </div>
+
+    </section>
+
+
+<?php endforeach; ?>
+
+
 
 <?php require __DIR__ . '/views/footer.php'; ?>
