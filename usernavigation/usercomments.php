@@ -16,7 +16,7 @@ $userComments = getUserComments($pdo, $id);
 
             <input type="text" class="form-control" id="comment" name="comment" placeholder="<?= $comment['text_content'] ?>"></input>
             <br>
-            <small class="form-text text-muted">User:<?= $comment['username'] ?> | Posted: <?= $comment['date_created']; ?></small>
+            <small class="form-text text-muted">Posted: <?= $comment['date_created']; ?></small>
             <button class="btn btn-info d-inline" type="submit" name="sumbit" value="submit">Update Comment</button>
 
         </form>

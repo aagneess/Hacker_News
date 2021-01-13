@@ -72,7 +72,7 @@ function validateUrl(string $url, object $pdo): bool
 
 // PROFILE
 // Function to get user info
-function getUserById(int $id, object $pdo): array
+function getUserById(object $pdo, int $id): array
 {
     $statement = $pdo->prepare('SELECT * FROM users WHERE id = :id');
     $statement->BindParam(':id', $id, PDO::PARAM_INT);
@@ -131,7 +131,7 @@ function getUserPosts(object $pdo, int $id): array
 //     }
 // }
 
-// ALL USER POSTS (new posts)
+// ALL USER POSTS (new posts ORIGINAL)
 function allUserPosts(object $pdo): array
 {
     $statement = $pdo->prepare('SELECT * FROM posts
@@ -157,30 +157,20 @@ function allUserPostsAsc(object $pdo): array
 }
 
 // COMMENTS BY POST
+
 function getComments(object $pdo): array
 {
-    $statement = $pdo->prepare('SELECT * FROM comments
-    WHERE post_id = :post_id
-    ORDER BY date_created DESC');
+    $statement = $pdo->prepare('SELECT comments.*, posts.id FROM comments
+    INNER JOIN posts 
+    ON comments.post_id = posts.id 
+    ORDER BY comments.date_created DESC');
 
-    $statement->BindParam(':post_id', $id, PDO::PARAM_INT);
     $statement->execute();
 
-    $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $userComments = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!$statement) {
-        return $_SESSION['message'] = "You have not written any comments yet.";
-    }
-
-    return $comments;
+    return $userComments;
 }
-
-
-// ('SELECT posts.*, users.username, users.avatar FROM posts 
-// INNER JOIN users 
-// ON posts.user_id = users.id 
-// ORDER BY posts.date DESC');
-
 
 // FLYTTA DENNA TILL POSTSEN ISTÄLLET?
 function getUserComments(object $pdo, int $id): array

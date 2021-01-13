@@ -2,7 +2,6 @@
 <?php require __DIR__ . '/views/header.php'; ?>
 
 <h1>Top Posts</h1>
-
 <?php
 // $upvotes = numberOfUpvotes($post['id'], $pdo);
 // <small class="form-text text-muted">Upvotes: <?php echo $upvotes; <small class="form-text text-muted">Upvotes: </small>
@@ -15,10 +14,12 @@
 
 <?php
 $userPosts = allUserPosts($pdo);
-$userComments = getComments($pdo);
+$comments = getComments($pdo);
+//die(var_dump($comments));
+?>
 
+<?php foreach ($userPosts as $post) : ?>
 
-foreach ($userPosts as $post) : ?>
 
 
     <section class="all-posts">
@@ -42,9 +43,9 @@ foreach ($userPosts as $post) : ?>
 
 
         <div class="comment-section">
-            <?php foreach ($userComments as $comment) : ?>
-                <p><?= $comment['text_content'] ?></p>
-            <?php endforeach; ?>
+
+            <!-- <p><?= $comments['text_content'] ?></p> -->
+
         </div>
 
         <div class="create-comment">
@@ -59,6 +60,7 @@ foreach ($userPosts as $post) : ?>
 
 
 <?php endforeach; ?>
+
 
 
 
