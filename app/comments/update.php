@@ -20,5 +20,5 @@ if (isset($_POST['update-comment'])) {
 
     $_SESSION['message'] = 'You have successfully updated your comment!';
 
-    // redirect..
+    redirect('/../usernavigation/usercomments.php');
 }

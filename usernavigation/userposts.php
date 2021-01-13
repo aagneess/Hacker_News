@@ -4,15 +4,16 @@
 <?php
 $id = (int) $_SESSION['user']['id'];
 $userPosts = getUserPosts($pdo, $id);
+
+//die(var_dump($userPosts));
 ?>
 
 <h2>Want to edit a post?</h2>
 <?php foreach ($userPosts as $post) : ?>
+
     <section class="user-posts">
-
-
         <form action="/app/posts/update.php" method="post" class="change-post">
-            <label class="d-inline" for="post-title">Title:</label>
+            <label for="post-title">Title:</label>
             <input type="text" class="form-control" id="post-title" name="post-title" placeholder="<?= $post['title'] ?>"></input>
             <br>
             <label for="post-title">Url:</label>
@@ -22,16 +23,15 @@ $userPosts = getUserPosts($pdo, $id);
             <input type="text" class="form-control" id="text-content" name="text-content" placeholder="<?= $post['text_content'] ?>"></input>
             <br>
             <small class="form-text text-muted">User:<?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
-            <small class="form-text text-muted">
-
-                <button class="btn btn-info d-inline" type="submit" name="sumbit" value="submit">Update Post</button>
+            <br>
+            <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Post</button>
+            <small class="form-text text-muted">User:<?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
         </form>
-
-        <form action="/app/posts/delete.php" method="post" class="d-inline">
-            <input type="hidden" name="post-id" value="<? echo $post['id']; ?>">
-            <button class="btn btn-danger " type="submit" name="sumbit" value="submit">Delete Post</button>
+        <form action="/app/posts/delete.php" method="post" class="change-post">
+            <input type="hidden" id="post-id" name="post-id" value="<?= $post['id']; ?>" />
+            <button class="btn btn-danger d-inline" type="submit" name="submit" value="submit">Delete Post</button>
         </form>
-
     </section>
+
 <?php endforeach; ?>
 <?php require __DIR__ . '/../views/footer.php'; ?>

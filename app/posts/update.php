@@ -30,4 +30,4 @@ if (isset($_POST)) {
     }
 }
 
-redirect('/../usernavigation/userposts.php');
+redirect('/usernavigation/userposts.php');

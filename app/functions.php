@@ -98,12 +98,10 @@ function getUserId(int $id, object $pdo): array
 function getUserPosts(object $pdo, int $id): array
 {
     $statement = $pdo->prepare('SELECT * FROM posts
-    INNER JOIN users
-    ON posts.user_id = users.id
-    WHERE users.id = :id
-    ORDER BY posts.id DESC');
+    WHERE user_id = :user_id
+    ORDER BY id DESC');
 
-    $statement->BindParam(':id', $id, PDO::PARAM_INT);
+    $statement->BindParam(':user_id', $id, PDO::PARAM_INT);
     $statement->execute();
 
     $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -156,4 +154,41 @@ function allUserPostsAsc(object $pdo): array
     $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     return $userPosts;
+}
+
+// USER'S COMMENTS
+
+function getUserComments(object $pdo, int $id): array
+{
+    $statement = $pdo->prepare('SELECT * FROM comments
+        INNER JOIN users
+        ON comments.user_id = users.id
+        WHERE users.id = :id
+        ORDER BY comments.id DESC');
+
+    $statement->BindParam(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+
+    $userComments = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$statement) {
+        return $_SESSION['message'] = "You have not written any comments yet.";
+    }
+
+    return $userComments;
+}
+
+// NUMBER OF UPVOTES
+
+function numberOfUpvotes(int $postId, object $pdo): string
+{
+    $statement = $pdo->prepare('SELECT COUNT(*) FROM upvotes WHERE post_id = :post_id');
+
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+
+    $statement->execute();
+
+    $upvotes = $statement->fetch(PDO::FETCH_ASSOC);
+
+    return $upvotes['COUNT(*)'];
 }
