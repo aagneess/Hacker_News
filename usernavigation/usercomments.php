@@ -4,6 +4,7 @@
 <?php
 $id = (int) $_SESSION['user']['id'];
 $userComments = getUserComments($pdo, $id);
+
 ?>
 
 <h2>Want to make changes to your comments?</h2>
@@ -22,7 +23,7 @@ $userComments = getUserComments($pdo, $id);
 
         <form action="/app/comments/delete.php" method="post" class="d-inline">
             <input type="hidden" id="post-id" name="post-title" value="<?= $comment['post_id']; ?>"></input>
-            <button class="btn btn-danger d-inline" type="submit" name="submit" value="<?= $comment['post_id']; ?>">Delete Comment</button>
+            <button class="btn btn-danger d-inline" type="submit" name="submit" value="submit">Delete Comment</button>
 
         </form>
 

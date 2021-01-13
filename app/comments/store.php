@@ -5,12 +5,15 @@ declare(strict_types=1);
 require __DIR__ . '/../autoload.php';
 
 if (isset($_POST['comment'])) {
-    $postId = $_POST['id'];
+    $postId = $_POST['post-id'];
     $userId = (int) $_SESSION['user']['id'];
     $textContent = trim(filter_var($_POST['comment'], FILTER_SANITIZE_STRING));
     $dateCreated = date('y-m-d h:m:s');
 
+
+
     $statement = $pdo->prepare('INSERT INTO comments (post_id, user_id, text_content, date_created) VALUES (:post_id, :user_id, :text_content, :date_created)');
+
 
     if (!$statement) {
         die(var_dump($pdo->errorInfo()));

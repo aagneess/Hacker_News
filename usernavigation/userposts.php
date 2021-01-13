@@ -24,8 +24,8 @@ $userPosts = getUserPosts($pdo, $id);
             <br>
             <small class="form-text text-muted">User:<?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
             <br>
+            <input type="hidden" id="post-id" name="post-id" value="<?= $post['id']; ?>" />
             <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Post</button>
-            <small class="form-text text-muted">User:<?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
         </form>
         <form action="/app/posts/delete.php" method="post" class="change-post">
             <input type="hidden" id="post-id" name="post-id" value="<?= $post['id']; ?>" />

@@ -114,22 +114,22 @@ function getUserPosts(object $pdo, int $id): array
 }
 
 //
-function getPostById(int $id, object $pdo): array
-{
-    $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
+// function getPostById(int $id, object $pdo): array
+// {
+//     $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
 
-    if (!$statement) {
-        die(var_dump($pdo->errorInfo()));
-    }
+//     if (!$statement) {
+//         die(var_dump($pdo->errorInfo()));
+//     }
 
-    $statement->bindParam(':id', $id, PDO::PARAM_INT);
-    $statement->execute();
+//     $statement->bindParam(':id', $id, PDO::PARAM_INT);
+//     $statement->execute();
 
-    $post = $statement->fetch(PDO::FETCH_ASSOC);
-    if ($post) {
-        return $post;
-    }
-}
+//     $post = $statement->fetch(PDO::FETCH_ASSOC);
+//     if ($post) {
+//         return $post;
+//     }
+// }
 
 // ALL USER POSTS (new posts)
 function allUserPosts(object $pdo): array
@@ -156,17 +156,40 @@ function allUserPostsAsc(object $pdo): array
     return $userPosts;
 }
 
-// USER'S COMMENTS
+// COMMENTS BY POST
+function getComments(object $pdo): array
+{
+    $statement = $pdo->prepare('SELECT * FROM comments
+    WHERE post_id = :post_id
+    ORDER BY date_created DESC');
 
+    $statement->BindParam(':post_id', $id, PDO::PARAM_INT);
+    $statement->execute();
+
+    $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$statement) {
+        return $_SESSION['message'] = "You have not written any comments yet.";
+    }
+
+    return $comments;
+}
+
+
+// ('SELECT posts.*, users.username, users.avatar FROM posts 
+// INNER JOIN users 
+// ON posts.user_id = users.id 
+// ORDER BY posts.date DESC');
+
+
+// FLYTTA DENNA TILL POSTSEN ISTÄLLET?
 function getUserComments(object $pdo, int $id): array
 {
     $statement = $pdo->prepare('SELECT * FROM comments
-        INNER JOIN users
-        ON comments.user_id = users.id
-        WHERE users.id = :id
-        ORDER BY comments.id DESC');
+    WHERE user_id = :user_id
+    ORDER BY date_created DESC');
 
-    $statement->BindParam(':id', $id, PDO::PARAM_INT);
+    $statement->BindParam(':user_id', $id, PDO::PARAM_INT);
     $statement->execute();
 
     $userComments = $statement->fetchAll(PDO::FETCH_ASSOC);
