@@ -36,7 +36,19 @@ And finally, open the project in your preferred browser! :)
 
 **Emil Petterson**
 
-- ...
+- Can’t comment my posts 
+  Undefined array key "id" in app/comments/. store.php on line 9
+
+- Not possible to delete my posts 
+  app/posts/delete.php on line 15
+
+- When uploading pic for profile would be cool if I could upload more formats, ex: SVG
+
+- Really nice and clean design
+
+- Well structured and easy to navigate on the page
+
+  Great work!
 
 ## License
 
