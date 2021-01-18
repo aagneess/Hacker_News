@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 require __DIR__ . '/../autoload.php';
 
-// In this file we delete posts in the database.
-if (isset($_POST['comment-id'])) {
+// In this file we delete comments in the database.
+if (isset($_POST['delete-comment'])) {
     $userId = (int) $_SESSION['user']['id'];
-    $postId = (int) $_POST['comment-id'];
-    $id = $_GET['id'];
+    $commentId = (int) $_POST['delete-comment'];
+    //$id = $_GET['id'];
 
-    $statement = $pdo->prepare('DELETE FROM comments WHERE id = :post_id AND user_id = :user_id');
-    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
-    $statement->bindParam(':user_id', $userOd, PDO::PARAM_INT);
+    //die(var_dump($postId));
+
+    $statement = $pdo->prepare('DELETE FROM comments WHERE id = :id AND user_id = :user_id');
+    $statement->bindParam(':id', $commentId, PDO::PARAM_INT);
+    $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
 
     if (!$statement) {
         die(var_dump($pdo->errorInfo()));
@@ -26,4 +28,4 @@ if (isset($_POST['comment-id'])) {
         $_SESSION['message'] = 'Something went wrong!';
     }
 }
-redirect('/../usernavigation/usercomments.php');
+redirect('/usernavigation/usercomments.php');

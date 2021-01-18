@@ -80,16 +80,15 @@ function getUserById(object $pdo, int $id): array
     $user =  $statement->fetch(PDO::FETCH_ASSOC);
     return $user;
 }
+
 // ACCOUNT SETTINGS
-function getUserId(int $id, object $pdo): array
+function getUserId(object $pdo, int $id): array
 {
     $statement = $pdo->prepare('SELECT * FROM users WHERE id = :id');
-    $statement->execute([':id' => $id]);
-    $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        return $user;
-    }
+    $statement->BindParam(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+    $user =  $statement->fetch(PDO::FETCH_ASSOC);
+    return $user;
 }
 
 // THE USERS POSTS
@@ -113,23 +112,38 @@ function getUserPosts(object $pdo, int $id): array
     return $userPosts;
 }
 
-//
-// function getPostById(int $id, object $pdo): array
-// {
-//     $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
+// GET POST BY ID FOR COMMENT SECTION
+function getPostById(object $pdo, int $postId): array
+{
+    $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
 
-//     if (!$statement) {
-//         die(var_dump($pdo->errorInfo()));
-//     }
+    if (!$statement) {
+        die(var_dump($pdo->errorInfo()));
+    }
 
-//     $statement->bindParam(':id', $id, PDO::PARAM_INT);
-//     $statement->execute();
+    $statement->bindParam(':id', $postId, PDO::PARAM_INT);
+    $statement->execute();
 
-//     $post = $statement->fetch(PDO::FETCH_ASSOC);
-//     if ($post) {
-//         return $post;
-//     }
-// }
+    $post = $statement->fetch(PDO::FETCH_ASSOC);
+    if ($post) {
+        return $post;
+    }
+}
+function getCommentsByPostId(object $pdo, int $postId): array
+{
+    $statement = $pdo->prepare('SELECT * FROM comments
+    WHERE comment_post_id = :post_id
+    ORDER BY comment_created DESC');
+
+    if (!$statement) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $statement->execute();
+    $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $comments;
+}
 
 // ALL USER POSTS (new posts ORIGINAL)
 function allUserPosts(object $pdo): array
@@ -158,26 +172,24 @@ function allUserPostsAsc(object $pdo): array
 
 // COMMENTS BY POST
 
-function getComments(object $pdo): array
+function getComments(object $pdo, int $postId): array
 {
-    $statement = $pdo->prepare('SELECT comments.*, posts.id FROM comments
-    INNER JOIN posts 
-    ON comments.post_id = posts.id 
-    ORDER BY comments.date_created DESC');
+    $statement = $pdo->prepare('SELECT * FROM comments
+    WHERE post_id = :post_id');
 
+    $statement->BindParam(':post_id', $postId, PDO::PARAM_INT);
     $statement->execute();
 
-    $userComments = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    return $userComments;
+    return $comments;
 }
-
-// FLYTTA DENNA TILL POSTSEN ISTÄLLET?
+// Get one users comments
 function getUserComments(object $pdo, int $id): array
 {
     $statement = $pdo->prepare('SELECT * FROM comments
     WHERE user_id = :user_id
-    ORDER BY date_created DESC');
+    ORDER BY comment_created DESC');
 
     $statement->BindParam(':user_id', $id, PDO::PARAM_INT);
     $statement->execute();

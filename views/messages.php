@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Messages to the user
+// In this file we send messages to the user
 if (isset($_SESSION['message'])) {
     $message = $_SESSION['message'];
     echo $message;

@@ -6,21 +6,19 @@
 </article>
 
 <?php
-$user = getUserId($_SESSION['user']['id'], $pdo);
-$id = (int) $_SESSION['user']['id'];
+$id = $_SESSION['user']['id'];
+$user = getUserId($pdo, $id);
 ?>
 
 <!-- AVATAR -->
-<form class="update-avatar" action="/../app/users/updateavatar.php" method="post" enctype="multipart/form-data">
-    <div class="">
-        <label class="avatar" for="avatar">Choose an image to upload:</label>
-        <input type="file" accept="/png, /jpg, /jpeg" name="avatar" id="avatar" required>
-    </div>
+<form class="form-control-file" action="/app/users/updateavatar.php" method="post" enctype="multipart/form-data">
+    <label class="avatar" for="avatar">Choose an image to upload:</label>
+    <input type="file" accept="/png, /jpg, /jpeg" name="avatar" id="avatar" required>
     <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Profile Picture</button>
 </form><br>
 
 <!-- BIO -->
-<form class="update-bio" action="/../app/users/updatebio.php" method="post">
+<form class="update-bio" action="/app/users/updatebio.php" method="post">
     <div class="form-group">
         <label for="bio">Here you can write a new bio:</label><br>
         <textarea id="bio" name="bio"><?= $_SESSION['user']['bio'] ?></textarea><br>
@@ -29,7 +27,7 @@ $id = (int) $_SESSION['user']['id'];
 </form><br>
 
 <!-- EMAIL -->
-<form class="update-email" action="/../app/users/updateemail.php" method="post">
+<form class="update-email" action="/app/users/updateemail.php" method="post">
     <div class="form-group">
         <label for="email"> Here you can change your email address:</label><br>
         <input type="email" name="email" id="email" placeholder="<?php echo $_SESSION['user']['email']; ?>">
@@ -38,7 +36,7 @@ $id = (int) $_SESSION['user']['id'];
 </form><br>
 
 <!-- PASSWORD -->
-<form class="update-password" action="/../app/users/updatepassword.php" method="post">
+<form class="update-password" action="/app/users/updatepassword.php" method="post">
     <div class="form-group">
         <label for="password"> Current password: </label>
         <input type="password" name="current-password" id="current-passord" required><br>

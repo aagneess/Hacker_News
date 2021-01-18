@@ -14,15 +14,14 @@
 
 <?php
 $userPosts = allUserPosts($pdo);
-$comments = getComments($pdo);
-//die(var_dump($comments));
+// Count the comments
 ?>
 
 <?php foreach ($userPosts as $post) : ?>
 
 
 
-    <section class="all-posts">
+    <section class="all-posts" id="<?= $post['id']; ?>">
 
         <span class="votes">
 
@@ -36,25 +35,19 @@ $comments = getComments($pdo);
 
         </span>
 
-        <span class="post-title" id="post-title" name="post-title"><?= $post['title'] ?> (<a class="post-link" href="<?= $post['url'] ?>"><?= $post['url'] ?></a>)</span>
-        <p><?= $post['text_content'] ?></p>
-        <small class="form-text text-muted">User: <?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
-        <br>
+        <p class="post-title" id="post-title" name="post-title"><?= $post['title'] ?></p>
 
+        <a class="d-inline-block text-truncate text-justify text-info lead font-weight-light text-decoration-none" style="max-width: 200px" href="<?= $post['url'] ?>"> <?= $post['url'] ?> </a>
 
-        <div class="comment-section">
+        <p class="font-weight-light"><?= $post['text_content'] ?></p>
 
-            <!-- <p><?= $comments['text_content'] ?></p> -->
+        <a class="lead text-info text-decoration-none" href="comments.php?postId=<?= $post['id'] ?>">Comments</a>
+        <small class="form-text text-muted">
+            <span class="badge badge-pill badge-secondary">User: </span>
+            <a class="text-info text-decoration-none" href="/profiles.php?userId=<?= $post['user_id'] ?>"><?= $post['username'] ?> </a>
+            <span class="badge badge-pill badge-secondary">Posted: </span>
+            <?= $post['date_created']; ?></small>
 
-        </div>
-
-        <div class="create-comment">
-            <form action="/app/comments/store.php" method="post" class="comment">
-                <input type="hidden" class="form-control" id="post-id" name="post-id" value="<?= $post['id'] ?>" />
-                <input type="text" class="form-control" id="comment" name="comment" placeholder="..."></input>
-                <button class="btn btn-info" type="submit" name="sumbit">Comment</button>
-            </form>
-        </div>
 
     </section>
 

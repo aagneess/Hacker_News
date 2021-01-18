@@ -9,7 +9,13 @@ $user = getUserById($pdo, $id);
 ?>
 <section class="user-profile">
     <h2><?= $user['username'];  ?>'s Profile</h2>
-    <img src="/app/users/uploads/<?= $user['avatar']; ?>" />
+
+    <?php if (!$user['avatar']) : ?>
+        <img src="/app/users/uploads/default.jpg" alt="Profile picture" />
+    <?php else : ?>
+        <img src="/app/users/uploads/<?= $user['avatar']; ?>" alt="Profile picture" />
+    <?php endif; ?>
+
     <p>Bio: <?= $user['bio'];  ?></p>
 </section>
 <!-- PROFILE PIC -->

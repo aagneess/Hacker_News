@@ -57,6 +57,9 @@
     justify-content: space-between;
   }
 }
+/* USER MESSAGES */
+.messages {
+}
 /* USER POSTS */
 .user-posts {
   background-color: #f8f9fa;
@@ -117,4 +120,11 @@
   background-color: #f8f9fa;
   padding: 1rem;
   border-radius: 1rem;
+}
+.comment-link {
+  color: #007183;
+}
+.comment-link:hover {
+  color: #007183;
+  text-decoration: none;
 }

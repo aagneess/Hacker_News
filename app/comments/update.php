@@ -7,8 +7,8 @@ require __DIR__ . '/../autoload.php';
 // In this file we edit the user's comments.
 if (isset($_POST['update-comment'])) {
     $userId = $_SESSION['user']['id'];
-    $postId = $_GET['id'];
-    $commentId = $_GET['comment-id'];
+    //$postId = $_GET['id'];
+    $commentId = $_POST['update-comment'];
     $editComment = filter_var($_POST['edit-comment'], FILTER_SANITIZE_STRING);
 
     $statement = $pdo->prepare('UPDATE comments SET content = :content WHERE id = :comment_id AND post_id = :post_id AND user_id = :user_id');
@@ -19,6 +19,5 @@ if (isset($_POST['update-comment'])) {
     $statement->execute();
 
     $_SESSION['message'] = 'You have successfully updated your comment!';
-
-    redirect('/../usernavigation/usercomments.php');
 }
+redirect('/usernavigation/usercomments.php');

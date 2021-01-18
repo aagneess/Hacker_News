@@ -14,6 +14,5 @@
 <body>
     <?php require __DIR__ . '/navigation.php'; ?>
     <?php require __DIR__ . '/usernavigation.php'; ?>
-    <?php require __DIR__ . '/../app/messages.php'; ?>
-
+    <div class="messages bg-secondary"><?php require __DIR__ . '/messages.php'; ?></div>
     <div class="container py-5">

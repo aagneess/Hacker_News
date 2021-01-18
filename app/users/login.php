@@ -6,29 +6,21 @@ require __DIR__ . '/../autoload.php';
 
 // Check if both email and password exists in the POST request.
 if (isset($_POST['email'], $_POST['password'])) {
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
+    $password = trim(filter_var($_POST['password'], FILTER_SANITIZE_STRING));
 
     // Prepare, bind email parameter and execute the database query.
     $statement = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     $statement->bindParam(':email', $email, PDO::PARAM_STR);
     $statement->execute();
-
-    // Fetch the user as an associative array.
     $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-    // If we couldn't find the user in the database, redirect back to the login
-    // page with our custom redirect function.
     if (!$user) {
         $_SESSION['message'] = 'There is no account linked to this email address, please try again.';
         redirect('/login.php');
     }
 
-    // If we found the user in the database, compare the given password from the
-    // request with the one in the database using the password_verify function.
     if (password_verify($_POST['password'], $user['password'])) {
-        // If the password was valid we know that the user exists and provided
-        // the correct password. We can now save the user in our session.
-        // Remember to not save the password in the session!
         unset($user['password']);
         $_SESSION['user'] = $user;
     } else {
@@ -37,19 +29,14 @@ if (isset($_POST['email'], $_POST['password'])) {
     }
 }
 
-// We should put this redirect in the end of this file since we always want to
-// redirect the user back from this file. 
+if (isset($user['password']) && password_verify($password, $user['password'])) {
+    $_SESSION['userLoggedIn'] = [
+        'user_id' => $user['id'],
+        'username' => $user['username'],
+        'email' => $user['email'],
+        'avatar' => $user['avatar'],
+        'bio' => $user['bio']
+    ];
+}
+
 redirect('/');
-
-
-if (!$user) {
-    $_SESSION['message'] = 'There is no account linked to this email address, please try again.';
-    redirect('/login.php');
-}
-if (password_verify($_POST['password'], $user['password'])) {
-    unset($user['password']);
-    $_SESSION['user'] = $user;
-} else {
-    $_SESSION['message'] = 'The password is not linked to the provided email address, please try again.';
-    redirect('/login.php');
-}

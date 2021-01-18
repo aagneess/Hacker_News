@@ -36,4 +36,4 @@ if (isset($_POST['title'], $_POST['url'], $_POST['text_content'])) {
         $_SESSION['message'] = 'You have successfully created a post!';
     }
 }
-redirect('/../usernavigation/post.php');
+redirect('/usernavigation/post.php');
