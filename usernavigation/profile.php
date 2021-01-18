@@ -5,18 +5,16 @@
 // PROFILE
 $id = $_SESSION['user']['id'];
 $user = getUserById($pdo, $id);
-
 ?>
 <section class="user-profile">
-    <h2><?= $user['username'];  ?>'s Profile</h2>
+    <div class="media">
+        <img class="mr-3" id="profile-pic" src="/app/users/<?= $user['avatar']; ?>" alt="Profile picture">
 
-    <?php if (!$user['avatar']) : ?>
-        <img src="/app/users/uploads/default.jpg" alt="Profile picture" />
-    <?php else : ?>
-        <img src="/app/users/uploads/<?= $user['avatar']; ?>" alt="Profile picture" />
-    <?php endif; ?>
-
-    <p>Bio: <?= $user['bio'];  ?></p>
+        <div class="media-body">
+            <h5 class="mt-0"><?= $user['username'];  ?></h5>
+            Bio: <?= $user['bio'];  ?>
+        </div>
+    </div>
 </section>
 <!-- PROFILE PIC -->
 

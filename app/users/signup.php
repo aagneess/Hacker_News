@@ -8,6 +8,7 @@ require __DIR__ . '/../autoload.php';
 if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
     $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
+    $password = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
 
     if (emailExists($email, $pdo)) {
         $_SESSION['message'] = 'This email is already in use.';
@@ -24,7 +25,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
         redirect('/signup.php');
     }
 
-    $password = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
+
 
     // Prepare, bind email parameter and execute the database query.
     $query = "INSERT INTO users (username, email, password) VALUES (:username, :email,  :password";

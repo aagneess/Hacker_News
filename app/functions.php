@@ -112,7 +112,8 @@ function getUserPosts(object $pdo, int $id): array
     return $userPosts;
 }
 
-// GET POST BY ID FOR COMMENT SECTION
+// COMMENT SECTION
+// Get post by id for comment section
 function getPostById(object $pdo, int $postId): array
 {
     $statement = $pdo->prepare('SELECT * FROM posts WHERE id = :id');
@@ -143,6 +144,16 @@ function getCommentsByPostId(object $pdo, int $postId): array
     $statement->execute();
     $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $comments;
+}
+// Count comments
+function countComments(object $pdo, int $postId): int
+{
+    $statement = $pdo->prepare('SELECT COUNT(*) FROM comments WHERE post_id = :post_id');
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $statement->execute();
+
+    $numberOfComments = $statement->fetch(PDO::FETCH_ASSOC);
+    return (int) $numberOfComments["COUNT(*)"];
 }
 
 // ALL USER POSTS (new posts ORIGINAL)

@@ -13,7 +13,7 @@ $user = getUserId($pdo, $id);
 <!-- AVATAR -->
 <form class="form-control-file" action="/app/users/updateavatar.php" method="post" enctype="multipart/form-data">
     <label class="avatar" for="avatar">Choose an image to upload:</label>
-    <input type="file" accept="/png, /jpg, /jpeg" name="avatar" id="avatar" required>
+    <input type="file" accept=".png, .jpg, .jpeg" name="avatar" id="avatar" required>
     <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Profile Picture</button>
 </form><br>
 

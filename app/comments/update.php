@@ -4,20 +4,27 @@ declare(strict_types=1);
 
 require __DIR__ . '/../autoload.php';
 
-// In this file we edit the user's comments.
-if (isset($_POST['update-comment'])) {
-    $userId = $_SESSION['user']['id'];
-    //$postId = $_GET['id'];
-    $commentId = $_POST['update-comment'];
-    $editComment = filter_var($_POST['edit-comment'], FILTER_SANITIZE_STRING);
+// In this file we update comments in the database.
+if (isset($_POST['comment-id'])) {
 
-    $statement = $pdo->prepare('UPDATE comments SET content = :content WHERE id = :comment_id AND post_id = :post_id AND user_id = :user_id');
-    $statement->bindParam(':content', $editComment, PDO::PARAM_STR);
-    $statement->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
-    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
-    $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    $commentId = $_POST['comment-id'];
+    $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
+
+    $statement = $pdo->prepare('UPDATE comments SET 
+    comment = :comment WHERE id = :id');
+    $statement->bindParam(':id', $commentId, PDO::PARAM_INT);
+    $statement->bindParam(':comment', $comment, PDO::PARAM_STR);
+
+    if (!$statement) {
+        die(var_dump($pdo->errorInfo()));
+    }
+
     $statement->execute();
 
-    $_SESSION['message'] = 'You have successfully updated your comment!';
+    if ($statement) {
+        $_SESSION['message'] = 'You have successfully updated your comment!';
+    } else {
+        $_SESSION['message'] = 'Something went wrong!';
+    }
 }
 redirect('/usernavigation/usercomments.php');

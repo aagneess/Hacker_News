@@ -77,19 +77,7 @@
   font-size: 1.2rem;
   font-weight: 300;
 }
-/* .text-content {
-  background-color: #5f9ea0;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-} */
-/* .post-link {
-  text-decoration: unset;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 160px;
-  height: 1.2em;
-  white-space: nowrap;
-} */
+
 .post-link:hover {
   text-decoration: unset;
   color: black;
@@ -128,3 +116,12 @@
   color: #007183;
   text-decoration: none;
 }
+#profile-pic {
+  border-radius: 50%;
+  height: 20rem;
+  width: 20rem;
+  object-fit: cover;
+}
+/* post-link {
+  vertical-align: middle;
+} */

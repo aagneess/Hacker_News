@@ -9,12 +9,10 @@ $usersProfile = getUserById($pdo, $userId);
 foreach ($usersProfile as $user) : ?>
 
     <section class="user-profile">
-        <h2><?= $user['username']  ?>'s Profile</h2>
+        <h2 class="col-sm"><?= $user['username']  ?></h2>
 
-        <p>Bio: <?= $user['bio'];  ?></p>
+        <p class="col-sm">Bio: <?= $user['bio'];  ?></p>
     </section>
-    <!-- PROFILE PIC <img src="/app/users/uploads/default.php" /> -->
-
 
 <?php endforeach; ?>
 

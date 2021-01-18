@@ -34,7 +34,7 @@ $userPosts = getUserPosts($pdo, $id);
 
             <button class="btn btn-info" type="post-id" name="post-id" value="<?= $post['id']; ?>">Update Post</button>
         </form>
-        <br>
+
         <form action="/app/posts/delete.php" method="post" class="form-group">
 
             <button class="btn btn-danger" type="post-id" name="post-id" value="<?= $post['id']; ?>">Delete Post</button>
