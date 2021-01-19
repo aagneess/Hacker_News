@@ -8,9 +8,6 @@ require __DIR__ . '/../autoload.php';
 if (isset($_POST['delete-comment'])) {
     $userId = (int) $_SESSION['user']['id'];
     $commentId = (int) $_POST['delete-comment'];
-    //$id = $_GET['id'];
-
-    //die(var_dump($postId));
 
     $statement = $pdo->prepare('DELETE FROM comments WHERE id = :id AND user_id = :user_id');
     $statement->bindParam(':id', $commentId, PDO::PARAM_INT);

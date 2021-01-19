@@ -13,19 +13,15 @@ $userComments = getUserComments($pdo, $id);
     <?php foreach ($userComments as $comment) : ?>
 
         <form action="/app/comments/update.php" method="post" class="change-comment">
-
             <input type="text" class="form-control" id="comment" name="comment" placeholder="<?= $comment['comment'] ?>"></input>
-            <br>
             <small class="form-text text-muted">Posted: <?= $comment['comment_created']; ?></small>
             <input type="hidden" id="comment-id" name="comment-id" value="<?= $comment['id']; ?>"></input>
             <button class="btn btn-info d-inline" type="submit" name="sumbit" value="submit">Update Comment</button>
-
         </form>
 
         <form action="/app/comments/delete.php" method="post" class="d-inline">
             <input type="hidden" id="delete-comment" name="delete-comment" value="<?= $comment['id']; ?>"></input>
             <button class="btn btn-danger d-inline" type="submit" name="submit" value="submit">Delete Comment</button>
-
         </form>
 
     <?php endforeach; ?>

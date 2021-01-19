@@ -22,12 +22,16 @@ $userPosts = allUserPosts($pdo);
     <section class="all-posts" id="<?= $post['id']; ?>">
 
         <div class="votes">
-
             <small class="form-text text-muted">Upvotes: </small>
 
-            <form action="/app/upvotes/store.php" method="post" class="upvote">
-                <button class="btn btn-light d-inline" type="submit" name="sumbit" value="<?= $post['id'] ?>">↑ </button>
-            </form>
+            <?php if (isset($_SESSION['user']) && createUpvote($pdo, $_SESSION['user']['id'], $post['id'])) : ?>
+                <button class="vote active" data-post="<?= $post['id'] ?>">↑ </button>
+
+            <?php elseif (isset($_SESSION['user']) && !createUpvote($pdo, $_SESSION['user']['id'], $post['id'])) : ?>
+                <button class="vote inactive" data-post="<?= $post['id'] ?>">↑ </button>
+            <?php else : ?>
+                <button class="vote" data-post="<?= $post['id'] ?>">↑ </button>
+            <?php endif; ?>
         </div>
 
         <p class="post-title" id="post-title" name="post-title"><?= $post['title'] ?></p>

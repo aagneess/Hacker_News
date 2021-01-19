@@ -19,25 +19,16 @@ $comments = getComments($pdo, $postId);
     <br>
 </section>
 
-<?php foreach ($comments as $comment) : ?>
-
-    <section class="comment-section">
-        <p>Comments:</p>
+<section class="comment-section">
+    <p>Comments:</p>
+    <?php foreach ($comments as $comment) : ?>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><?= $comment['comment'] ?></li>
             <small class="form-text text-muted">User: <?= $comment['username'] ?> | Posted: <?= $comment['comment_created']; ?></small>
         </ul><br>
-    </section>
+</section>
 
 <?php endforeach; ?>
-
-<!-- <section class="write-comment">
-    <form action="/../app/comments/store.php" method="post" class="">
-        <input type="text" class="form-control" id="comment" name="comment" placeholder="..."></input>
-        <input type="hidden" class="form-control" id="comment" name="comment" value="<?= $post['id'] ?>"></input>
-        <button class="btn btn-info" type="submit" name="sumbit" value="submit">Comment</button>
-    </form>
-</section> -->
 
 <section class="write-comment">
     <form action="/app/comments/store.php" method="post" class="">
