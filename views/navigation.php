@@ -13,7 +13,7 @@
         </li><!-- /nav-item -->
 
         <li class="nav-item">
-            <a class="nav-link <?php echo $_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : ''; ?>" href="/index.php">Home</a>
+            <a class="nav-link <?php echo $_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : ''; ?>" href="/index.php">Top Posts</a>
         </li><!-- /nav-item -->
 
         <li class="nav-item">

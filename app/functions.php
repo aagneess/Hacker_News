@@ -156,30 +156,7 @@ function countComments(object $pdo, int $postId): int
     return (int) $numberOfComments["COUNT(*)"];
 }
 
-// ALL USER POSTS (new posts ORIGINAL)
-function allUserPosts(object $pdo): array
-{
-    $statement = $pdo->prepare('SELECT * FROM posts
-    ORDER BY posts.date_created DESC');
 
-    $statement->execute();
-
-    $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    return $userPosts;
-}
-// ALL USER POSTS (older posts)
-function allUserPostsAsc(object $pdo): array
-{
-    $statement = $pdo->prepare('SELECT * FROM posts
-    ORDER BY posts.date_created ASC');
-
-    $statement->execute();
-
-    $userPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    return $userPosts;
-}
 
 // COMMENTS BY POST
 
@@ -214,60 +191,44 @@ function getUserComments(object $pdo, int $id): array
     return $userComments;
 }
 
-// Get post related to each user's comments
-function postRelatedToComment(object $pdo, int $postId): array
-{
-    $statement = $pdo->prepare('SELECT posts.*, comments.post_id
-    FROM posts
-    INNER JOIN comments
-    ON posts.id = comments.post_id');
 
-    if (!$statement) {
-        die(var_dump($pdo->errorInfo()));
-    }
-
-    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
-    $statement->execute();
-    $post = $statement->fetchAll(PDO::FETCH_ASSOC);
-    return $post;
-}
 
 
 
 // FUNCTIONS - UPVOTES
 // Create upvote
-function addUpvote(object $pdo, int $userId, int $postId)
-{
-    $statement = $pdo->prepare('INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)');
-    $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
-    $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
-    $statement->execute();
-}
+// function addUpvote(object $pdo, int $userId, int $postId)
+// {
+//     $statement = $pdo->prepare('INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)');
+//     $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
+//     $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
+//     $statement->execute();
+// }
 
-// Delete upvote if already upvoted
-function removeUpvote(object $pdo, int $userId, int $postId)
-{
-    $statement = $pdo->prepare('DELETE FROM upvotes WHERE user_id = :user_id AND post_id = :post_id');
-    $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
-    $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
-    $statement->execute();
-}
+// // Delete upvote if already upvoted
+// function removeUpvote(object $pdo, int $userId, int $postId)
+// {
+//     $statement = $pdo->prepare('DELETE FROM upvotes WHERE user_id = :user_id AND post_id = :post_id');
+//     $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
+//     $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
+//     $statement->execute();
+// }
 
-function upvoteExists(object $pdo, int $userId, int $postId): bool
-{
-    $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
-    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
-    $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
-    $statement->execute();
+// function upvoteExists(object $pdo, int $userId, int $postId): bool
+// {
+//     $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+//     $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+//     $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+//     $statement->execute();
 
-    $upvote = $statement->fetch(PDO::FETCH_ASSOC);
+//     $upvote = $statement->fetch(PDO::FETCH_ASSOC);
 
-    if ($upvote) {
-        return true;
-    } else {
-        return false;
-    }
-}
+//     if ($upvote) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 function numberOfUpvotes(object $pdo, int $postId): int
 {
@@ -277,4 +238,44 @@ function numberOfUpvotes(object $pdo, int $postId): int
 
     $upvotes = $statement->fetch(PDO::FETCH_ASSOC);
     return (int) $upvotes["COUNT(*)"];
+}
+
+// ALL USER POSTS (new posts)
+function allUserPosts(object $pdo): array
+{
+    $statement = $pdo->prepare('SELECT * FROM posts
+    ORDER BY posts.date_created DESC');
+
+    $statement->execute();
+
+    $newPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $newPosts;
+}
+
+// ALL USER POSTS (older posts)
+function allUserPostsAsc(object $pdo): array
+{
+    $statement = $pdo->prepare('SELECT * FROM posts
+    ORDER BY posts.date_created ASC');
+
+    $statement->execute();
+
+    $olderPosts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $olderPosts;
+}
+
+// Sort posts by most upvotes
+function mostUpvotedPosts(object $pdo): array
+{
+
+    $statement = $pdo->prepare('SELECT posts.*, upvotes.post_id 
+        FROM posts INNER JOIN upvotes 
+        ON posts.id = upvotes.post_id 
+        GROUP BY post_id ORDER BY COUNT(*) DESC');
+    $statement->execute();
+
+    $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $posts;
 }

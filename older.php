@@ -1,27 +1,43 @@
 <?php require __DIR__ . '/app/autoload.php'; ?>
 <?php require __DIR__ . '/views/header.php'; ?>
 
-
 <h1>Older Posts</h1>
+<?php $olderPosts = allUserPostsAsc($pdo); ?>
 
-<?php $userPosts = allUserPostsAsc($pdo);
-foreach ($userPosts as $post) : ?>
+<?php foreach ($olderPosts as $post) :
+    $postId = $post['id'];
+    $comments = countComments($pdo, $postId);
+    $upvotes = numberOfUpvotes($pdo, $postId);
+?>
 
-    <section class="all-posts">
-        <span class="post-title" id="post-title" name="post-title"><?= $post['title'] ?> (<a class="post-link" href="<?= $post['url'] ?>"><?= $post['url'] ?></a>)</span>
-        <p><?= $post['text_content'] ?></p>
-        <small class="form-text text-muted">User: <?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
-        <br>
+    <article class="all-posts">
 
-        <div class="comment-section">
-            <form action="/../app/comments/store.php" method="post" class="">
-                <input type="text" class="form-control" id="comment" name="comment" placeholder="..."></input>
-                <button class="btn btn-info" type="submit" name="sumbit" value="submit">Comment</button>
+        <section class="upvotes">
+            <form action="/app/upvotes/upvotes.php" method="post">
+                <?php if (isset($_SESSION['user'])) :
+                    $userId = $_SESSION['user']['id']; ?>
+                    <input type="hidden" class="form-control" id="post-id" name="post-id" value="<?= $post['id'] ?>"></input>
+                    <button class="btn btn-sm btn-outline-secondary d-inline shadow-none" id="submit" name="submit">↑</button>
+                <?php else : {
+                    };
+                endif; ?>
+                <small class="form-text text-muted d-inline">Upvotes: <?= $upvotes ?></small>
             </form>
-        </div>
-    </section>
 
 
+            <p class="post-title" id="post-title" name="post-title"><?= $post['title'] ?></p>
+            <a class="d-inline-block text-truncate text-justify text-info lead font-weight-light text-decoration-none" style="max-width: 100%" href="<?= $post['url'] ?>"> <?= $post['url'] ?> </a>
+            <p class="font-weight-light"><?= $post['text_content'] ?></p>
+            <a class="lead text-info text-decoration-none" href="comments.php?postId=<?= $post['id'] ?>">Comments (<?= $comments ?>)</a>
+
+            <small class="form-text text-muted">
+                <span class="badge badge-pill badge-secondary">User: </span>
+                <a class="text-info text-decoration-none" href="/profiles.php?userId=<?= $post['user_id'] ?>"><?= $post['username'] ?> </a>
+                <span class="badge badge-pill badge-secondary">Posted: </span>
+                <time><?= $post['date_created']; ?></time>
+            </small>
+        </section>
+
+    </article>
 <?php endforeach; ?>
-
 <?php require __DIR__ . '/views/footer.php'; ?>

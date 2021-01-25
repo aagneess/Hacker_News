@@ -14,8 +14,11 @@
 
 $id = (int) $_SESSION['user']['id'];
 $userComments = getUserComments($pdo, $id);
-?>
 
+if (!$userComments) {
+    $_SESSION['message'] = 'You have not written any comments yet!';
+}
+?>
 <h2>Want to make changes to your comments?</h2>
 
 <?php foreach ($userComments as $comment) : ?>

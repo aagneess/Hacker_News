@@ -2,11 +2,10 @@
 <?php require __DIR__ . '/views/header.php'; ?>
 
 <h1>Top Posts</h1>
-<?php $userPosts = allUserPosts($pdo); ?>
+<?php $mostUpvoted = mostUpvotedPosts($pdo); ?>
 
-<?php foreach ($userPosts as $post) :
+<?php foreach ($mostUpvoted as $post) :
     $postId = $post['id'];
-    //die(var_dump($postId));
     $comments = countComments($pdo, $postId);
     $upvotes = numberOfUpvotes($pdo, $postId);
 ?>
@@ -18,7 +17,7 @@
                 <?php if (isset($_SESSION['user'])) :
                     $userId = $_SESSION['user']['id']; ?>
                     <input type="hidden" class="form-control" id="post-id" name="post-id" value="<?= $post['id'] ?>"></input>
-                    <button class="btn btn-sm btn-outline-secondary d-inline shadow-none" id="post-id" name="post-id" class="submit">↑</button>
+                    <button class="btn btn-sm btn-outline-secondary d-inline shadow-none" id="submit" name="submit">↑</button>
                 <?php else : {
                     };
                 endif; ?>
@@ -27,7 +26,7 @@
 
 
             <p class="post-title" id="post-title" name="post-title"><?= $post['title'] ?></p>
-            <a class="d-inline-block text-truncate text-justify text-info lead font-weight-light text-decoration-none" style="max-width: 280px" href="<?= $post['url'] ?>"> <?= $post['url'] ?> </a>
+            <a class="d-inline-block text-truncate text-justify text-info lead font-weight-light text-decoration-none" style="max-width: 100%" href="<?= $post['url'] ?>"> <?= $post['url'] ?> </a>
             <p class="font-weight-light"><?= $post['text_content'] ?></p>
             <a class="lead text-info text-decoration-none" href="comments.php?postId=<?= $post['id'] ?>">Comments (<?= $comments ?>)</a>
 

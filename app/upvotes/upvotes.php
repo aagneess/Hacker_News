@@ -5,34 +5,31 @@ declare(strict_types=1);
 require __DIR__ . '/../autoload.php';
 
 // In this file we store the upvotes.
-if (isset($_POST['post-id'])) {
-    $postId = $_POST['post-id'];
-    $userId = (int) $_SESSION['user']['id'];
+if (isset($_SESSION['user']['id'])) {
+    if (isset($_POST)) {
+        $postId = $_POST['post-id'];
+        $userId = $_SESSION['user']['id'];
 
-    if (upvoteExists($pdo, $userId, $postId)) {
-        removeUpvote($pdo, $userId, $postId);
-    } else {
-        addUpvote($pdo, $userId, $postId);
+        $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+        $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+        $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $statement->execute();
+        $upvoteExists = $statement->fetch();
+
+        if (!$upvoteExists) {
+            $statement = $pdo->prepare('INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)');
+            $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+            $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+
+            $statement->execute();
+        } else {
+            $statement = $pdo->prepare('DELETE FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+            $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+            $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+
+            $statement->execute();
+        }
     }
-} else {
-    $_SESSION['message'] = 'You need to log in to upvote posts.';
-    redirect('/index.php');
 }
 
-
-
-// if (isset($_SESSION['user'])) {
-//     if (isset($_POST['post-id'])) {
-//         $postId = $_POST['post-id'];
-//         $userId = (int) $_SESSION['user']['id'];
-
-//         if (upvoteExists($pdo, $userId, $postId)) {
-//             removeUpvote($pdo, $userId, $postId);
-//         } else {
-//             addUpvote($pdo, $userId, $postId);
-//         }
-//     } else {
-//         $_SESSION['message'] = 'You need to log in to upvote posts.';
-//         redirect('/index.php');
-//     }
-// }
+redirect('/index.php');
