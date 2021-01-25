@@ -57,9 +57,6 @@
     justify-content: space-between;
   }
 }
-/* USER MESSAGES */
-.messages {
-}
 /* USER POSTS */
 .user-posts {
   background-color: #f8f9fa;
@@ -81,9 +78,6 @@
 .post-link:hover {
   text-decoration: unset;
   color: black;
-}
-.user-posts {
-  display: flex;
 }
 .edit-title {
   display: inline;
@@ -122,6 +116,7 @@
   width: 20rem;
   object-fit: cover;
 }
-/* post-link {
-  vertical-align: middle;
-} */
+/* upvote button */
+.btn-outline-secondary {
+  border-color: none;
+}

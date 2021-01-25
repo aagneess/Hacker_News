@@ -9,8 +9,11 @@ $user = getUserById($pdo, $userId);
 
 <section class="user-profile">
     <div class="media">
-        <img class="mr-3" id="profile-pic" src="/app/users/<?= $user['avatar']; ?>" alt="Profile picture">
-
+        <?php if (!$user['avatar']) : ?>
+            <img id="profile-pic" src="/app/users/default.jpg" alt="Profile picture">
+        <?php else : ?>
+            <img id="profile-pic" src="/app/users/<?= $user['avatar']; ?>" alt="Profile picture">
+        <?php endif; ?>
         <div class="media-body">
             <h5 class="mt-0"><?= $user['username'];  ?></h5>
             Bio: <?= $user['bio'];  ?>

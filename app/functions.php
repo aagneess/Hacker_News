@@ -214,61 +214,67 @@ function getUserComments(object $pdo, int $id): array
     return $userComments;
 }
 
-//UPVOTES
-
-function numberOfUpvotes(int $postId, object $pdo): string
+// Get post related to each user's comments
+function postRelatedToComment(object $pdo, int $postId): array
 {
-    $statement = $pdo->prepare('SELECT COUNT(*) FROM upvotes WHERE post_id = :post_id');
-
-    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
-
-    $statement->execute();
-
-    $upvotes = $statement->fetch(PDO::FETCH_ASSOC);
-
-    return $upvotes['COUNT(*)'];
-}
-// Create upvote
-function createUpvote(object $pdo, int $userId, int $postId): bool
-{
-    $statement = $pdo->prepare("SELECT * FROM upvotes WHERE user_id = :user_id AND post_id = :post_id");
-    $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
-    $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
-    $statement->execute();
+    $statement = $pdo->prepare('SELECT posts.*, comments.post_id
+    FROM posts
+    INNER JOIN comments
+    ON posts.id = comments.post_id');
 
     if (!$statement) {
         die(var_dump($pdo->errorInfo()));
     }
 
-    $upvoted = $statement->fetch(PDO::FETCH_ASSOC);
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $statement->execute();
+    $post = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $post;
+}
 
-    if (!$upvoted) {
-        return false;
-    } else {
-        return true;
-    }
+
+
+// FUNCTIONS - UPVOTES
+// Create upvote
+function addUpvote(object $pdo, int $userId, int $postId)
+{
+    $statement = $pdo->prepare('INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)');
+    $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
+    $statement->execute();
 }
 
 // Delete upvote if already upvoted
-function changeUpvote(object $pdo, int $userId, int $postId): void
+function removeUpvote(object $pdo, int $userId, int $postId)
 {
-    if (createUpvote($pdo, $userId, $postId)) {
-        $statement = $pdo->prepare("DELETE FROM upvotes WHERE user_id = :user_id AND post_id = :post_id");
-        $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
-        $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
-        $statement->execute();
+    $statement = $pdo->prepare('DELETE FROM upvotes WHERE user_id = :user_id AND post_id = :post_id');
+    $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
+    $statement->execute();
+}
 
-        if (!$statement) {
-            die(var_dump($pdo->errorInfo()));
-        }
+function upvoteExists(object $pdo, int $userId, int $postId): bool
+{
+    $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    $statement->execute();
+
+    $upvote = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($upvote) {
+        return true;
     } else {
-        $statement = $pdo->prepare("INSERT INTO upvotes (user_id, post_id) VALUES(:user_id, :post_id)");
-        $statement->bindParam(":user_id", $userId, PDO::PARAM_INT);
-        $statement->bindParam(":post_id", $postId, PDO::PARAM_INT);
-        $statement->execute();
-
-        if (!$statement) {
-            die(var_dump($pdo->errorInfo()));
-        }
+        return false;
     }
+}
+
+function numberOfUpvotes(object $pdo, int $postId): int
+{
+    $statement = $pdo->prepare('SELECT COUNT(*) FROM upvotes WHERE post_id = :post_id');
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $statement->execute();
+
+    $upvotes = $statement->fetch(PDO::FETCH_ASSOC);
+    return (int) $upvotes["COUNT(*)"];
 }

@@ -12,7 +12,7 @@ $userPosts = getUserPosts($pdo, $id);
 <?php foreach ($userPosts as $post) : ?>
 
     <section class="user-posts">
-        <form action="/app/posts/update.php" method="post" class="form-group">
+        <form action="/app/posts/update.php" method="post" class="form">
             <label for="post-title">Title:</label>
             <input type="text" class="form-control" id="post-title" name="post-title" placeholder="<?= $post['title'] ?>"></input>
             <br>
@@ -24,21 +24,13 @@ $userPosts = getUserPosts($pdo, $id);
             <br>
             <small class="form-text text-muted">User:<?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
             <br>
-            <!-- <input type="hidden" id="post-id" name="post-id" value="<?= $post['id']; ?>" />
-            <button class="btn btn-info" type="submit" name="sumbit" value="submit">Update Post</button>
-        </form>
-        <form action="/app/posts/delete.php" method="post" class="change-post">
-            <input type="hidden" id="post-id" name="post-id" value="<?= $post['id']; ?>" />
-            <button class="btn btn-danger d-inline" type="submit" name="submit" value="submit">Delete Post</button>
-        </form> -->
-
-            <button class="btn btn-info" type="post-id" name="post-id" value="<?= $post['id']; ?>">Update Post</button>
+            <div class="btn-group " role="group">
+                <button class="rounded btn btn-info" type="post-id" name="post-id" value="<?= $post['id']; ?>">Update Post</button>
         </form>
 
-        <form action="/app/posts/delete.php" method="post" class="form-group">
-
-            <button class="btn btn-danger" type="post-id" name="post-id" value="<?= $post['id']; ?>">Delete Post</button>
-
+        <form action="/app/posts/delete.php" method="post" class="form">
+            <button class="ml-1 btn btn-danger" type="post-id" name="post-id" value="<?= $post['id']; ?>">Delete Post</button>
+            </div>
         </form>
 
     </section>
