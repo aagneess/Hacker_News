@@ -9,11 +9,11 @@ $comments = getComments($pdo, $postId);
 ?>
 
 <section class="posts" id="<?= $post['id'] ?>">
-    <span class="post-title" id="post-title" name="post-title"><?= $post['title'] ?> (<a class="post-link" href="<?= $post['url'] ?>"><?= $post['url'] ?></a>)</span>
+    <span class="post-title" id="post-title" name="post-title"><?= $post['title'] ?> (<a class="text-info text-decoration-none" href="<?= $post['url'] ?>"><?= $post['url'] ?></a>)</span>
     <p><?= $post['text_content'] ?></p>
     <small class="form-text text-muted">
         <span class="badge badge-pill badge-secondary">User: </span>
-        <a href="/profiles.php?userId=<?= $post['user_id'] ?>"><?= $post['username'] ?> </a>
+        <a class="text-info text-decoration-none" href="/profiles.php?userId=<?= $post['user_id'] ?>"><?= $post['username'] ?> </a>
         <span class="badge badge-pill badge-secondary">Posted: </span>
         <?= $post['date_created']; ?></small>
     <br>

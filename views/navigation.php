@@ -1,7 +1,4 @@
 <nav class="navbar">
-    <a class="navbar-brand" href="/../index.php"><?php echo $config['title']; ?></a>
-    <!-- <img class="logo" src="/../assets/HN.svg" alt="Hacker News" /> -->
-
     <ul class="navbar-nav">
 
         <li class="nav-item">
