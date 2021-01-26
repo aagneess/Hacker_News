@@ -14,8 +14,7 @@
 <body>
     <?php require __DIR__ . '/navbar.php'; ?>
     <?php require __DIR__ . '/navigation.php'; ?>
-    <?php require __DIR__ . '/usernavigation.php'; ?>
-    <div class="alert alert-info" role="alert"><?php require __DIR__ . '/messages.php'; ?></div>
+    <?php require __DIR__ . '/messages.php'; ?>
 
 
     <div class="container py-5">

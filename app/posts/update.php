@@ -21,9 +21,8 @@ if (isset($_POST['post-title'])) {
     if ($statement) {
         $_SESSION['message'] = 'You have successfully updated your post!';
     }
-}
+} elseif (isset($_POST['post-link'])) {
 
-if (isset($_POST['post-link'])) {
     $statement = $pdo->prepare('UPDATE posts SET 
     url = :url WHERE id = :id');
     $statement->bindParam(':id', $postId, PDO::PARAM_INT);
@@ -33,9 +32,8 @@ if (isset($_POST['post-link'])) {
     if ($statement) {
         $_SESSION['message'] = 'You have successfully updated your post!';
     }
-}
+} elseif (isset($_POST['text-content'])) {
 
-if (isset($_POST['text-content'])) {
     $statement = $pdo->prepare('UPDATE posts SET 
     text_content = :text_content WHERE id = :id');
     $statement->bindParam(':id', $postId, PDO::PARAM_INT);

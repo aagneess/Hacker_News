@@ -1,7 +1,6 @@
-/* BUTTONS */
 .navbar-brand {
   font-weight: 100;
-  font-size: 3rem;
+  font-size: 2rem;
   text-align: center;
 }
 .nav-link {
@@ -10,11 +9,12 @@
 }
 .navbar {
   background-color: #252525;
+  padding: 0rem 1rem;
   display: flex;
 }
 .navbar .navbar-nav {
-  flex-direction: column;
-  width: 40rem;
+  flex-direction: row;
+  width: 100%;
   justify-content: space-between;
 }
 .navbar a {
@@ -23,22 +23,15 @@
   justify-content: center;
   text-align: center;
 }
-@media screen and (min-width: 500px) {
-  .navbar .navbar-nav {
-    flex-direction: row;
-    width: 40rem;
-    justify-content: space-between;
-  }
-}
+
 /* USER NAVIGATION BAR */
 .usernavbar {
-  /* background-color: #333333; */
   background-color: #17a2b8;
   padding: 0rem 1rem;
   display: flex;
 }
 .usernavbar .navbar-nav {
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   justify-content: space-around;
 }
@@ -51,12 +44,7 @@
 .usernavbar .nav-link {
   padding: 0.5rem;
 }
-@media screen and (min-width: 500px) {
-  .usernavbar .navbar-nav {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
+
 /* USER POSTS */
 .user-posts {
   background-color: #f8f9fa;
@@ -110,13 +98,49 @@
   color: #007183;
   text-decoration: none;
 }
+/* PROFILE PICTURE */
 #profile-pic {
   border-radius: 50%;
-  height: 20rem;
-  width: 20rem;
+  height: 40%;
+  width: 40%;
+  /* height: 20rem;
+  width: 20rem; */
   object-fit: cover;
 }
-/* upvote button */
-.btn-outline-secondary {
-  border-color: none;
+.menu-button {
+  display: none;
+}
+/* DROP DOWN MENU */
+@media screen and (max-width: 500px) {
+  .drop-down {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    width: 100%;
+    top: 3.5rem;
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+    text-align: center;
+  }
+  .drop-down.open {
+    transform: translateX(0);
+  }
+  .menu-button {
+    display: inherit;
+    z-index: 2;
+    border: none;
+    background-color: #252525;
+  }
+  .menu-button:focus {
+    border: none;
+    outline: none;
+  }
+  .navbar .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+  .usernavbar .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
 }
