@@ -4,8 +4,6 @@
 <?php
 $id = (int) $_SESSION['user']['id'];
 $userPosts = getUserPosts($pdo, $id);
-
-//die(var_dump($userPosts));
 ?>
 
 <h2>Want to edit a post?</h2>
@@ -14,13 +12,13 @@ $userPosts = getUserPosts($pdo, $id);
     <section class="user-posts">
         <form action="/app/posts/update.php" method="post" class="form">
             <label for="post-title">Title:</label>
-            <input type="text" class="form-control" id="post-title" name="post-title" placeholder="<?= $post['title'] ?>"></input>
+            <input type="text" class="form-control" id="post-title" name="post-title" placeholder="<?= $post['title'] ?>" required></input>
             <br>
             <label for="post-title">Url:</label>
-            <input type="url" class="form-control" id="post-link" name="post-link" placeholder="<?= $post['url'] ?>"></input>
+            <input type="url" class="form-control" id="post-link" name="post-link" placeholder="<?= $post['url'] ?>" required></input>
             <br>
             <label for="post-title">Description:</label>
-            <input type="text" class="form-control" id="text-content" name="text-content" placeholder="<?= $post['text_content'] ?>"></input>
+            <input type="text" class="form-control" id="text-content" name="text-content" placeholder="<?= $post['text_content'] ?>" required></input>
             <br>
             <small class="form-text text-muted">User:<?= $post['username'] ?> | Posted: <?= $post['date_created']; ?></small>
             <br>

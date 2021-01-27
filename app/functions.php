@@ -214,21 +214,21 @@ function getUserComments(object $pdo, int $id): array
 //     $statement->execute();
 // }
 
-// function upvoteExists(object $pdo, int $userId, int $postId): bool
-// {
-//     $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
-//     $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
-//     $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
-//     $statement->execute();
+function upvoteExists(object $pdo, int $userId, int $postId): bool
+{
+    $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+    $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+    $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    $statement->execute();
 
-//     $upvote = $statement->fetch(PDO::FETCH_ASSOC);
+    $upvote = $statement->fetch(PDO::FETCH_ASSOC);
 
-//     if ($upvote) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
+    if ($upvote) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function numberOfUpvotes(object $pdo, int $postId): int
 {

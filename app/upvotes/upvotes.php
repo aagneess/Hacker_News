@@ -20,16 +20,16 @@ if (isset($_SESSION['user']['id'])) {
             $statement = $pdo->prepare('INSERT INTO upvotes (post_id, user_id) VALUES (:post_id, :user_id)');
             $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
             $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
-
             $statement->execute();
         } else {
             $statement = $pdo->prepare('DELETE FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
             $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
             $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
-
             $statement->execute();
         }
     }
+    $votes = numberOfUpvotes($pdo, $postId);
 }
 
-redirect('/index.php');
+header("Content-Type: application/json");
+echo json_encode($votes);

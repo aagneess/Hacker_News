@@ -1,16 +1,24 @@
-// function getContent() {
-//   document.getElementById("textarea").value = document.getElementById(
-//     "post-title",
-//     "post-link",
-//     "post-content"
-//   ).innerHTML;
-// }
+"use strict";
 
-const menuButtons = document.querySelectorAll(".menu-button");
-const menu = document.querySelector(".drop-down");
+const upvotes = document.querySelectorAll("section.upvotes");
 
-menuButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    menu.classList.toggle("open");
+upvotes.forEach((button) => {
+  const upvoteButton = button.querySelector(".upvote");
+  const id = upvoteButton.dataset.id;
+  const numberOfVotes = button.querySelector(".amount");
+
+  console.log(upvoteButton);
+
+  upvoteButton.addEventListener("click", () => {
+    const form = new FormData();
+    form.append("postId", id);
+    fetch("/app/upvotes/upvotes.php", {
+      method: "post",
+      body: form,
+    })
+      .then((response) => response.json())
+      .then((amount) => {
+        numberOfVotes.textContent = amount;
+      });
   });
 });
