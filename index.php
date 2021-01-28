@@ -19,7 +19,7 @@
             <?php else : {
                 };
             endif; ?>
-            <small class="vote form-text text-muted d-inline" data-id="<?= $post['id'] ?>">Upvotes: <?= $upvotes ?></small>
+            <small class="form-text text-muted d-inline">Upvotes: <span class="amount"><?= $upvotes ?></span></small>
 
         </section>
 

@@ -2,12 +2,10 @@
 
 const upvotes = document.querySelectorAll("section.upvotes");
 
-upvotes.forEach((button) => {
-  const upvoteButton = button.querySelector(".upvote");
+upvotes.forEach((vote) => {
+  const upvoteButton = vote.querySelector(".upvote");
   const id = upvoteButton.dataset.id;
-  const numberOfVotes = button.querySelector(".amount");
-
-  console.log(upvoteButton);
+  const numberOfVotes = vote.querySelector(".amount");
 
   upvoteButton.addEventListener("click", () => {
     const form = new FormData();
