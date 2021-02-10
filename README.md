@@ -50,7 +50,7 @@ And finally, open the project in your preferred browser! :)
 
   Bra jobbat! 🙂
 
-## Added Features by Victor(https://github.com/Vstranne) 2021-02-10
+## Added Features by [Victor](https://github.com/Vstranne) 2021-02-10
 
 - Added functionality to delete account
 
