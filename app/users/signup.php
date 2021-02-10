@@ -8,7 +8,7 @@ require __DIR__ . '/../autoload.php';
 if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
     $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
-    $password = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
     if (emailExists($email, $pdo)) {
         $_SESSION['message'] = 'This email is already in use.';
@@ -28,7 +28,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
 
 
     // Prepare, bind email parameter and execute the database query.
-    $query = "INSERT INTO users (username, email, password) VALUES (:username, :email,  :password";
+    $query = "INSERT INTO users (username, email, password) VALUES (:username, :email,  :password)";
     $statement = $pdo->prepare($query);
 
     if (!$statement) {
@@ -37,7 +37,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
 
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
     $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    $statement->bindParam(':password', $id, PDO::PARAM_INT);
+    $statement->bindParam(':password', $password, PDO::PARAM_STR);
     $statement->execute();
 
     $_SESSION['message'] = 'You have successfully created an account!';
@@ -52,11 +52,11 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     // $statement->execute();
 
     $statement = $pdo->prepare('SELECT * FROM users WHERE username = :username');
-    $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    // $statement->bindParam(':id', $id, PDO::PARAM_INT);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    $statement->bindParam(':avatar', $avatar, PDO::PARAM_STR);
-    $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
+    // $statement->bindParam(':email', $email, PDO::PARAM_STR);
+    // $statement->bindParam(':avatar', $avatar, PDO::PARAM_STR);
+    // $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
     $statement->execute();
 
     $registeredUser =  $statement->fetch(PDO::FETCH_ASSOC);

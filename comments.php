@@ -24,8 +24,21 @@ $comments = getComments($pdo, $postId);
     <?php foreach ($comments as $comment) : ?>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><?= $comment['comment'] ?></li>
-            <small class="form-text text-muted">User: <?= $comment['username'] ?> | Posted: <?= $comment['comment_created']; ?></small>
+            <small class="form-text text-muted">User: <?= $comment['username'] ?> | Posted: <?= $comment['comment_created']; ?>
+                <?php if (isset($_SESSION['user'])) : ?>
+                    | <a href="reply.php?commentId=<?= $comment['id'] ?>">Reply</a>
+                <?php endif; ?></small>
         </ul><br>
+        <div class="replies">
+            <?php $replies = getReplies($pdo, $comment['id']); ?>
+            <?php foreach ($replies as $reply) : ?>
+                <!-- <ul class="list-group list-group-flush"> -->
+                <!-- <li class="list-group-item"></li> -->
+                <p class="reply"><?= $reply['reply'] ?></p>
+                <small class="form-text text-muted">User: <?= $reply['username'] ?> | Posted: <?= $reply['reply_created']; ?></small>
+                </ul><br>
+            <?php endforeach; ?>
+        </div>
 </section>
 
 <?php endforeach; ?>

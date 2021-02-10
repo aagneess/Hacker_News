@@ -172,6 +172,33 @@ function getComments(object $pdo, int $postId): array
 
     return $comments;
 }
+
+// Just get one comment
+function getComment(object $pdo, int $commentId): array
+{
+    $id = trim(filter_var($commentId, FILTER_SANITIZE_NUMBER_INT));
+    $statement = $pdo->prepare('SELECT * FROM comments WHERE id = :id');
+    $statement->bindParam(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+
+    $comment = $statement->fetch(PDO::FETCH_ASSOC);
+
+    return $comment;
+}
+
+//Get replies from specific comment
+function getReplies(object $pdo, int $commentId)
+{
+    $commentId = trim(filter_var($commentId, FILTER_SANITIZE_NUMBER_INT));
+    $statement = $pdo->prepare('SELECT * FROM replys WHERE comment_id = :comment_id');
+    $statement->bindParam(':comment_id', $commentId, PDO::PARAM_INT);
+    $statement->execute();
+
+    $replies = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $replies;
+}
+
 // Get one users comments
 function getUserComments(object $pdo, int $id): array
 {
