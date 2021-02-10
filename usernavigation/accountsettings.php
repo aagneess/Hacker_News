@@ -54,4 +54,11 @@ $user = getUserId($pdo, $id);
 </form>
 
 
+<form class="delete-account" action="/app/users/deleteaccount.php" method="post">
+    <div class="form-group">
+        <label for="delete">Delete Account(and everything you ever did on this site! leaving no footprint TEHEHEHE)</label><br>
+        <button class="btn btn-info" type="submit" name="delete" value="delete">DELETE MY ACCOUNT</button>
+    </div>
+</form>
+
 <?php require __DIR__ . '/../views/footer.php'; ?>

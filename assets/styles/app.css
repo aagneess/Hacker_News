@@ -107,6 +107,12 @@
 .menu-button {
   display: none;
 }
+.replies {
+  padding-left: 4rem;
+}
+.reply {
+  margin-bottom: 0px;
+}
 /* DROP DOWN MENU */
 @media screen and (max-width: 500px) {
   .drop-down {

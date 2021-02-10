@@ -49,7 +49,12 @@ And finally, open the project in your preferred browser! :)
 - Well structured and easy to navigate on the page
 
   Bra jobbat! 🙂
-  
+
+## Added Features by [Victor](https://github.com/Vstranne) 2021-02-10
+
+- Added functionality to delete account
+
+- Added functionality to reply to comments
 
 ## License
 

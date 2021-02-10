@@ -8,7 +8,7 @@ require __DIR__ . '/../autoload.php';
 if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     $username = trim(filter_var($_POST['username'], FILTER_SANITIZE_STRING));
     $email = trim(filter_var($_POST['email'], FILTER_SANITIZE_EMAIL));
-    $password = trim(password_hash($_POST['password'], PASSWORD_BCRYPT));
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
     if (emailExists($email, $pdo)) {
         $_SESSION['message'] = 'This email is already in use.';
@@ -38,15 +38,6 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     $statement->execute();
 
     $_SESSION['message'] = 'You have successfully created an account!';
-
-    // ADD WHEN DEFAULT BIO AND AVATAR IS SET!
-    // $statement = $pdo->prepare('INSERT INTO users (username, email, password, avatar, bio) VALUES (:username, :email,  :password, :avatar, :bio');
-    // $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    // $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    // $statement->bindParam(':password', $password, PDO::PARAM_STR);
-    // $statement->bindParam(':avatar', $avatar, PDO::PARAM_STR);
-    // $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
-    // $statement->execute();
 
     redirect('/login.php');
 };
