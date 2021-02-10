@@ -7,6 +7,11 @@ $userPosts = getUserPosts($pdo, $id);
 ?>
 
 <h2>Want to edit a post?</h2>
+
+<?php if (!$userPosts) :
+    $_SESSION['message'] = 'You have not written any posts yet!';
+endif; ?>
+
 <?php foreach ($userPosts as $post) : ?>
 
     <section class="user-posts">
@@ -32,6 +37,6 @@ $userPosts = getUserPosts($pdo, $id);
         </form>
 
     </section>
-
 <?php endforeach; ?>
+
 <?php require __DIR__ . '/../views/footer.php'; ?>

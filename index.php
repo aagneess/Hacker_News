@@ -8,18 +8,38 @@
     $postId = $post['id'];
     $comments = countComments($pdo, $postId);
     $upvotes = numberOfUpvotes($pdo, $postId);
+
 ?>
 
     <article class="all-posts">
 
         <section class="upvotes">
-            <?php if (isset($_SESSION['user'])) :
-                $userId = $_SESSION['user']['id']; ?>
-                <button class="upvote btn btn-sm btn-outline-secondary d-inline shadow-none" data-id="<?= $post['id'] ?>" id="submit" name="submit">↑</button>
-            <?php else : {
+            <?php if (isset($_SESSION['user'])) : ?>
+
+                <?php
+                $userId = $_SESSION['user']['id'];
+
+                $statement = $pdo->prepare('SELECT * FROM upvotes WHERE post_id = :post_id AND user_id = :user_id');
+                $statement->bindParam(':post_id', $postId, PDO::PARAM_INT);
+                $statement->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $statement->execute();
+                $upvoteExists = $statement->fetch();
+                ?>
+
+                <form class="upvote" action="/app/upvotes/upvotes.php" method="post">
+                    <input type="hidden" name="upvote" id="post-id" value="<?= $post['id']; ?>"></input>
+                    <?php if ($upvoteExists) : ?>
+                        <button class="upvote-button btn btn-sm btn-secondary d-inline shadow-none" data-id="<?= $post['id'] ?>" value="submit" type="submit">↑</button>
+                    <?php else : ?>
+                        <button class="upvote-button btn btn-sm btn-outline-secondary d-inline shadow-none" data-id="<?= $post['id'] ?>" value="submit" type="submit">↑</button>
+                    <?php endif; ?>
+                <?php else : {
                 };
             endif; ?>
-            <small class="form-text text-muted d-inline">Upvotes: <span class="amount"><?= $upvotes ?></span></small>
+
+                <small class="form-text text-muted d-inline">Upvotes: <span data-id="<?= $post['id'] ?>" class="amount"><?= $upvotes ?></span></small>
+
+                </form>
 
         </section>
 

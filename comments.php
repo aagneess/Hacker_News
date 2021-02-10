@@ -43,4 +43,6 @@ $comments = getComments($pdo, $postId);
     </form>
 </section>
 
+<a class="text-info text-decoration-none" href="/">← Back</a>
+
 <?php require __DIR__ . '/views/footer.php'; ?>

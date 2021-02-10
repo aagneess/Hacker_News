@@ -25,11 +25,8 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
         redirect('/signup.php');
     }
 
-
-
     // Prepare, bind email parameter and execute the database query.
-    $query = "INSERT INTO users (username, email, password) VALUES (:username, :email,  :password";
-    $statement = $pdo->prepare($query);
+    $statement = $pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)');
 
     if (!$statement) {
         die(var_dump($pdo->errorInfo()));
@@ -37,7 +34,7 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
 
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
     $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    $statement->bindParam(':password', $id, PDO::PARAM_INT);
+    $statement->bindParam(':password', $password, PDO::PARAM_STR);
     $statement->execute();
 
     $_SESSION['message'] = 'You have successfully created an account!';
@@ -50,25 +47,6 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'])) {
     // $statement->bindParam(':avatar', $avatar, PDO::PARAM_STR);
     // $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
     // $statement->execute();
-
-    $statement = $pdo->prepare('SELECT * FROM users WHERE username = :username');
-    $statement->bindParam(':id', $id, PDO::PARAM_INT);
-    $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    $statement->bindParam(':avatar', $avatar, PDO::PARAM_STR);
-    $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
-    $statement->execute();
-
-    $registeredUser =  $statement->fetch(PDO::FETCH_ASSOC);
-
-    $_SESSION['userLoggedIn'] = [
-        'user_id' => $registeredUser['id'],
-        'username' => $registeredUser['username'],
-        'email' => $registeredUser['email'],
-        'avatar' => $registeredUser['avatar'],
-        'bio' => $registeredUser['bio']
-    ];
-
 
     redirect('/login.php');
 };

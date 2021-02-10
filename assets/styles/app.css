@@ -100,11 +100,8 @@
 }
 /* PROFILE PICTURE */
 #profile-pic {
-  border-radius: 50%;
-  height: 40%;
-  width: 40%;
-  /* height: 20rem;
-  width: 20rem; */
+  height: 100%;
+  width: 100%;
   object-fit: cover;
 }
 .menu-button {
@@ -143,4 +140,23 @@
     flex-direction: column;
     width: 100%;
   }
+}
+
+/* ALERT MESSAGES */
+.alert {
+  padding: 20px;
+  background-color: #252525;
+  color: white;
+  margin: 1rem;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
 }

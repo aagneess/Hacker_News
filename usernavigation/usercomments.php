@@ -12,16 +12,18 @@
 // $post = $statement->fetchAll(PDO::FETCH_ASSOC);
 //die(var_dump($post));
 
-$id = (int) $_SESSION['user']['id'];
+$id = $_SESSION['user']['id'];
 $userComments = getUserComments($pdo, $id);
-
-if (!$userComments) {
-    $_SESSION['message'] = 'You have not written any comments yet!';
-}
 ?>
+
 <h2>Want to make changes to your comments?</h2>
 
+<?php if (!$userComments) :
+    $_SESSION['message'] = 'You have not written any comments yet!';
+endif; ?>
+
 <?php foreach ($userComments as $comment) : ?>
+
     <section class="user-comments">
 
         <form action="/app/comments/update.php" method="post" class="change-comment">
@@ -39,7 +41,7 @@ if (!$userComments) {
         </form>
         </div><br>
 
-    <?php endforeach; ?>
     </section>
+<?php endforeach; ?>
 
-    <?php require __DIR__ . '/../views/footer.php'; ?>
+<?php require __DIR__ . '/../views/footer.php'; ?>

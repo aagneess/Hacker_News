@@ -1,22 +1,34 @@
 "use strict";
 
-const upvotes = document.querySelectorAll("section.upvotes");
+const upvoteForm = document.querySelectorAll(".upvote");
 
-upvotes.forEach((vote) => {
-  const upvoteButton = vote.querySelector(".upvote");
-  const id = upvoteButton.dataset.id;
-  const numberOfVotes = vote.querySelector(".amount");
+upvoteForm.forEach((upvote) => {
+  upvote.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  upvoteButton.addEventListener("click", () => {
-    const form = new FormData();
-    form.append("postId", id);
+    const formData = new FormData(upvote);
+
     fetch("/app/upvotes/upvotes.php", {
-      method: "post",
-      body: form,
+      method: "POST",
+      body: formData,
     })
-      .then((response) => response.json())
-      .then((amount) => {
-        numberOfVotes.textContent = amount;
+      .then((response) => {
+        return response.json();
+      })
+
+      .then((json) => {
+        const numberOfVotes = event.target.querySelector(".amount");
+        numberOfVotes.textContent = json.amount;
       });
+  });
+});
+
+// MENU
+const menuButtons = document.querySelectorAll(".menu-button");
+const menu = document.querySelector(".drop-down");
+
+menuButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("open");
   });
 });
